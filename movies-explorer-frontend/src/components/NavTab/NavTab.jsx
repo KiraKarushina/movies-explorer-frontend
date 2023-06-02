@@ -1,27 +1,27 @@
 import '../Promo/Promo.css';
 
-function NavTab () {
+function NavTab ({clickCallBack}) {
     return (
       <nav>
         <ul className="promo__list">
           <li
             name="aboutProject"
             className="promo__list-item color_secondary text"
-            // onClick={handleButtonClick}
+            onClick={clickCallBack}
           >
             О проекте
           </li>
           <li
             name="techs"
             className="promo__list-item color_secondary text"
-            // onClick={handleButtonClick}
+            onClick={clickCallBack}
           >
             Технологии
           </li>
           <li
-            name="student"
+            name="aboutMe"
             className="promo__list-item color_secondary text"
-            // onClick={handleButtonClick}
+            onClick={clickCallBack}
           >
             Студент
           </li>
