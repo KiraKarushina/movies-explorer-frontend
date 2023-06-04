@@ -1,8 +1,14 @@
-import React from "react"
+import React from 'react'
+import './Preloader.css'
 
-function Preloader() {
+const Preloader = () => {
+    return (
+        <div className="preloader">
+            <div className="preloader__container">
+                <span className="preloader__round"></span>
+            </div>
+        </div>
+    )
+};
 
-    return (<></>)
-}
-
-export default Preloader;
+export default Preloader

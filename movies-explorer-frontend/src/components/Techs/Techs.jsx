@@ -3,11 +3,11 @@ import "./Techs.css";
 
 const Techs = forwardRef((props, ref) => {
   return (
-    <section className="techs color_background" ref={ref}>
-      <h2 className="techs__header text_subtitle">Технологии</h2>
+    <section className="techs" ref={ref}>
+      <h2 className="techs__title">Технологии</h2>
       <div className="techs__info">
-        <h3 className="techs__title text_title">7 технологий</h3>
-        <p className="tech__text text">
+        <h3 className="techs__subtitle">7 технологий</h3>
+        <p className="techs__text text">
           На курсе веб-разработки мы освоили технологии, которые применили в
           дипломном проекте.
         </p>

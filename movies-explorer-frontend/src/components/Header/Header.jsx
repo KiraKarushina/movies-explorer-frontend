@@ -19,7 +19,7 @@ function Header() {
   };
   return (
     <header className="header">
-      <Link to='/'>
+      <Link to="/"  >
         <img src={logo} className="header__logo" alt="лого" />
       </Link>
       {globalState.loggedIn && (
@@ -75,7 +75,7 @@ function Header() {
               </Link>
             </li>
             <li className="header__auth-item link">
-              <Link to="/sign-in" className="header__link">
+              <Link to="/sign-in" className="header__button">
                 Войти
               </Link>
             </li>

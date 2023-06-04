@@ -1,44 +1,28 @@
-import foto from "../../images/photo.svg";
+import foto from "../../images/foto.jpg";
 import "./AboutMe.css";
 import React, { forwardRef } from "react";
 
 const AboutMe = forwardRef((props, ref) => {
   return (
     <section className="about" ref={ref}>
-      <h2 className="about__header text_subtitle underline-pb25">Студент</h2>
+      <h2 className="about__title">Студент</h2>
       <div className="about__info">
         <div className="about__info-description">
-          <h3 className="about__info-title text_title">Виталий</h3>
-          <p className="about__info-subtitle">Фронтенд-разработчик, 30 лет</p>
+          <h3 className="about__info-title text_title">Дарья</h3>
+          <p className="about__info-subtitle">Фронтенд-разработчик, 32 года</p>
           <p className="about__info-description text">
-            Я родился и живу в Саратове, закончил факультет экономики СГУ. У
-            меня есть жена и дочь. Я люблю слушать музыку, а ещё увлекаюсь
-            бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ
-            Контур». После того, как прошёл курс по веб-разработке, начал
-            заниматься фриланс-заказами и ушёл с постоянной работы.
+            Я родилась в Челябинске, живу в Москве. Закончила факультет социально-культурного сервиса и туризма РГУТиС. Люблю слушать музыку, читать фантастические романы, увлекаюсь
+            спортов. Недавно начала кодить. С 2020 года работаю копирайтером на фрилансе. После того, как прошла курс по веб-разработке, начала
+            заниматься фриланс-заказами, совмещая их с писательством и редактурой.
           </p>
-          <ul className="about__links text">
-            <li>
               <a
-                href="https://vk.com/"
-                className="link"
-                target="_blank"
-                rel="noreferrer"
-              >
-                ВКонтакте
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://github.com/g28xyz"
-                className="link"
+                href="https://github.com/KiraKarushina"
+                className="git__link"
                 target="_blank"
                 rel="noreferrer"
               >
                 Github
               </a>
-            </li>
-          </ul>
         </div>
         <img
           className="about__info-image"

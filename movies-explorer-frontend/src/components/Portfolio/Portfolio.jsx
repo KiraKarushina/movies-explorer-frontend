@@ -7,7 +7,7 @@ function Portfolio() {
     <section className="portfolio">
       <p className="portfolio__title text color_text">Портфолио</p>
       <ul className="portfolio__list">
-        <li className="portfolio__list-item underline-pb20">
+        <li className="portfolio__list-item">
           <a
             className="portfolio__link link"
             href="https://github.com/KiraKarushina/how-to-learn.git"
@@ -18,7 +18,7 @@ function Portfolio() {
             <img src={arrow} alt="Иконка - ссылочная стрелка" />
           </a>
         </li>
-        <li className="portfolio__list-item underline-pb20">
+        <li className="portfolio__list-item">
           <a
             className="portfolio__link link"
             href="https://github.com/KiraKarushina/russian-travel.git"
