@@ -13,7 +13,7 @@ function Footer() {
             <li>
               <a
                 href="https://practicum.yandex.ru/profile/web"
-                className="footer__link"
+                className="link"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -23,7 +23,7 @@ function Footer() {
             <li>
               <a
                 href="https://github.com/Yandex-Practicum"
-                className="footer__link"
+                className="link"
                 target="_blank"
                 rel="noreferrer"
               >

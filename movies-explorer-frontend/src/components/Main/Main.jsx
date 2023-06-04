@@ -23,8 +23,7 @@ function Main() {
   }
 
   return (
-    <main>
-      <section className="content">
+    <main className="content">
         <Promo>
           <NavTab clickCallBack={clickCallBack} />
         </Promo>
@@ -32,7 +31,6 @@ function Main() {
         <Techs ref={refs.techs} />
         <AboutMe ref={refs.aboutMe} />
         <Portfolio />
-      </section>
     </main>
   );
 }

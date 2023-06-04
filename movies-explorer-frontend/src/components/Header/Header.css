@@ -1,9 +1,14 @@
 .header {
-  display: flex;
-  justify-content: space-between;
-  max-width: 1280px;
-  max-height: 74px;
-  margin: 0 70px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 1280px;
+    max-height: 74px;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    padding: 18px 70px;
+    box-sizing: border-box;
+    align-items: center;
 }
 
 .header__logo {
@@ -49,6 +54,22 @@
   padding: 29px 0;
   margin: 0;
 }
+
+/* .header__movies {
+
+} */
+
+/* .header__burger {
+
+} */
+
+/* .header__burger-close {
+
+}
+
+.header__burger-line {
+
+} */
 
 @media screen and (max-width: 768px) {
     .header {

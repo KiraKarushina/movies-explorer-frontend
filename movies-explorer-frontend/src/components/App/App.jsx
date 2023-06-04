@@ -1,25 +1,24 @@
 import React, { useState } from "react";
-import Footer from "../Footer/Footer";
-import Header from "../Header/Header";
 import Login from "../Login/Login";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
 import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
 import SavedMovies from "../SavedMovies/SavedMovies";
-import NotFoundPage from "../NotFoundPage/NotFounfPage";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import "./App.css";
 import InfoToolTip from "../InfoTooTip/InfoToolTip";
 import Modal from "../Modal/Modal";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import HeadAndFoodWrapper from "../HeadAndFoodWrapper/HeadAndFoodWrapper";
 
 function App() {
   //
   //States
   //
 
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
 
   const [toolTip, setToolTip] = useState({
     message: "",
@@ -29,14 +28,23 @@ function App() {
 
   return (
     <div className="page">
-      <Header></Header>
       <Routes>
-        <Route exact path="/" element={<Main />} />
+        <Route
+          exact
+          path="/"
+          element={
+            <HeadAndFoodWrapper>
+              <Main />
+            </HeadAndFoodWrapper>
+          }
+        />
         <Route
           path="/movies"
           element={
             <ProtectedRoute loggedIn={loggedIn}>
-              <Movies />
+              <HeadAndFoodWrapper>
+                <Movies />
+              </HeadAndFoodWrapper>
             </ProtectedRoute>
           }
         />
@@ -44,7 +52,9 @@ function App() {
           path="/saved-movies"
           element={
             <ProtectedRoute loggedIn={loggedIn}>
-              <SavedMovies />
+              <HeadAndFoodWrapper>
+                <SavedMovies />
+              </HeadAndFoodWrapper>
             </ProtectedRoute>
           }
         />
@@ -52,7 +62,9 @@ function App() {
           path="/profile"
           element={
             <ProtectedRoute loggedIn={loggedIn}>
-              <Profile />
+              <HeadAndFoodWrapper>
+                <Profile />
+              </HeadAndFoodWrapper>
             </ProtectedRoute>
           }
         />
@@ -60,7 +72,7 @@ function App() {
         <Route path="/sign-up" element={<Register />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-      <Footer></Footer>
+
       {toolTip.isOpen && (
         <Modal>
           <InfoToolTip />
