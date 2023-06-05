@@ -58,8 +58,7 @@ class Api {
   }
 
   getMovies() {
-    return [];
-    // return fetch(`${moviesApiAddress}/`).then(this.handleResponse);
+    return fetch(`${moviesApiAddress}/`).then(this._handleResponse);
   }
 }
 

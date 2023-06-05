@@ -25,6 +25,9 @@ function SavedMovies() {
       <MoviesCardList
         handleClickMoreMovies={handleClickMoreMovies}
         isNotFound={isNotFound}
+        isFilteredShortFilms={true}
+        showedCountMovies={12}
+        movies= {[]}
       />
     </main>
   );

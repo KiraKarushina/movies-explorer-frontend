@@ -16,6 +16,10 @@
   padding: 18px 0;
 }
 
+.header__burger {
+    display: none;
+  }
+
 .header__navigate {
   width: 100%;
   padding-left: 44px;
@@ -92,102 +96,124 @@
 }
 
 @media screen and (max-width: 768px) {
-    .header {
-      padding: 18px 30px;
-    }
-  
-    .header__burger-close {
-      display: block;
-    }
-  
-    .header__navigate-movies {
-      display: flex;
-      justify-content: flex-end;
-    }
-  
-    .header__movies {
-      position: fixed;
-      padding: 30px;
-      content: "";
-      top: 0;
-      right: 0;
-      width: 520px;
-      height: 100vh;
-      background-color: rgba(32, 32, 32, 1);
-      display: none;
-      flex-direction: column;
-      box-sizing: border-box;
-      z-index: 1;
-      gap: 28px;
-    }
-  
-    .header__movies:before {
-      position: absolute;
-      content: "";
-      top: 0;
-      right: 0;
-      left: 0;
-      bottom: 0;
-      transform: translateX(-520px);
-      background-color: rgba(0, 0, 0, 0.6);
-    }
-  
-    .header__movies-item {
-      font-size: 18px;
-      line-height: calc(22 / 18);
-    }
-    .header__movies-item {
-      font-size: 18px;
-      line-height: calc(22 / 18);
-    }
-  
-    .header__movies-item:last-child {
-      font-size: 14px;
-      line-height: calc(16 / 14);
-      align-items: end;
-      margin-bottom: 80px;
-    }
-  
-    .header__movies-item:nth-child(2) {
-      display: block;
-    }
-  
-    .header__movies-item_selected {
-      border-bottom: 1px solid white;
-    }
-  
-    .header__burger {
-      display: flex;
-    }
+  .header {
+    padding: 18px 30px;
   }
-  
-  @media screen and (max-width: 640px) {
-    .header__movies {
-      width: 100%;
-    }
-    .header__movies:before {
-      display: none;
-    }
+
+  .header__burger-close {
+    display: block;
   }
-  
-  @media screen and (max-width: 375px) {
-    .header {
-      padding: 18px 14px;
-    }
-  
-    .header__auth {
-      gap: 14px;
-    }
-  
-    .header__movies {
-      padding: 20px;
-    }
-  
-    .header__link {
-      min-width: 54px;
-      padding: 5px 12px;
-    }
-    .header__links {
-      gap: 14px;
-    }
+
+  .header__navigate-movies {
+    display: flex;
+    justify-content: flex-end;
   }
+
+  .header__movies {
+    position: fixed;
+    padding: 30px;
+    content: "";
+    top: 0;
+    right: 0;
+    width: 520px;
+    height: 100vh;
+    background-color: #f5f5f5;
+    display: none;
+    flex-direction: column;
+    box-sizing: border-box;
+    z-index: 1;
+    gap: 28px;
+  }
+
+  .header__movies:before {
+    position: absolute;
+    content: "";
+    -webkit-text-size-adjust: 100%;
+    font-family: "Inter", "Arial", "Helvetica", sans-serif;
+    color: #000;
+    list-style-type: none;
+    align-items: center;
+    position: fixed;
+    padding: 30px;
+    content: "";
+    top: 0;
+    right: 0;
+    width: 520px;
+    height: 100vh;
+    background-color: #f5f5f5;
+    flex-direction: column;
+    box-sizing: border-box;
+    z-index: 1;
+    gap: 28px;
+    margin: 0;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: calc(16 / 10);
+    display: flex;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-520px);
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .header__movies-item {
+    font-size: 18px;
+    line-height: calc(22 / 18);
+  }
+  .header__movies-item {
+    font-size: 18px;
+    line-height: calc(22 / 18);
+  }
+
+  .header__movies-item:last-child {
+    font-size: 14px;
+    line-height: calc(16 / 14);
+    align-items: end;
+    margin-bottom: 80px;
+  }
+
+  .header__movies-item:nth-child(2) {
+    display: block;
+  }
+
+  .header__movies-item_selected {
+    border-bottom: 1px solid white;
+  }
+
+  .header__burger {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .header__movies {
+    width: 100%;
+  }
+  .header__movies:before {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .header {
+    padding: 18px 14px;
+  }
+
+  .header__auth {
+    gap: 14px;
+  }
+
+  .header__movies {
+    padding: 20px;
+  }
+
+  .header__link {
+    min-width: 54px;
+    padding: 5px 12px;
+  }
+  .header__links {
+    gap: 14px;
+  }
+}

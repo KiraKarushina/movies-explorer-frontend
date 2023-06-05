@@ -15,8 +15,8 @@ function Header() {
   };
 
   const handleCloseMenu = () => {
-    // const menu = menuRef.current;
-    // menu.style.display = "none";
+    const menu = menuRef.current;
+    menu.style.display = "";
   };
   return (
     <header className="header">
@@ -50,9 +50,9 @@ function Header() {
             </Link>
           </li>
         </ul>
-        {/* <div className="header__burger-close link" onClick={handleOpenMenu}>
+        <div className="header__burger link" onClick={handleOpenMenu}>
           <img src={closeIcon} alt="иконка бургера" />
-        </div> */}
+        </div>
       </nav>
 
       {!globalState.loggedIn && (

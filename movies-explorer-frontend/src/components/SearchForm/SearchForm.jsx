@@ -2,7 +2,7 @@ import Filter from "../Filter/Filter";
 
 function SearchForm({ searchText, handleChange, handleSubmit, onChangeFilter, filterShortFilms}) {
   return (
-    <div className="search color_background">
+    <div className="search">
       <form className="search__form" onSubmit={handleSubmit}>
         <input
           type="text"
