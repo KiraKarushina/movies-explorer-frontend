@@ -41,31 +41,25 @@ function App() {
         <Route
           path="/movies"
           element={
-            <ProtectedRoute loggedIn={loggedIn}>
               <HeadAndFoodWrapper>
                 <Movies />
               </HeadAndFoodWrapper>
-            </ProtectedRoute>
           }
         />
         <Route
           path="/saved-movies"
           element={
-            <ProtectedRoute loggedIn={loggedIn}>
               <HeadAndFoodWrapper>
                 <SavedMovies />
               </HeadAndFoodWrapper>
-            </ProtectedRoute>
           }
         />
         <Route
           path="/profile"
           element={
-            <ProtectedRoute loggedIn={loggedIn}>
               <HeadAndFoodWrapper>
                 <Profile />
               </HeadAndFoodWrapper>
-            </ProtectedRoute>
           }
         />
         <Route path="/sign-in" element={<Login />} />

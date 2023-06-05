@@ -20,10 +20,7 @@
 @import url(./components/Main/Main.css);
 @import url(./components/NotFoundPage/NotFoundPage.css);
 @import url(./components/CustomInput/CustomInput.css);
-
-
-
-
+@import url(./components/Filter/Filter.css);
 @import url(./components/SearchForm/SearchForm.css);
 
 

@@ -77,7 +77,7 @@ function Login() {
           </form>
           <div className="login__link-container">
             <p className="text color_text">Еще не зарегестрированны?</p>
-            <Link to="/sign-in" className="login__link text">
+            <Link to="/sign-up" className="login__link text">
               Рестистрация
             </Link>
           </div>

@@ -1,0 +1,82 @@
+.profile {
+    display: flex;
+    flex-direction: column;
+    max-width: 410px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 74px;
+  }
+  
+  .profile__form {
+    padding-top: 123px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  
+  .profile__label {
+    position: relative;
+  }
+  
+  .profile__label:first-child:before {
+    position: absolute;
+    content: "Имя";
+  }
+  
+  .profile__label:nth-last-child(2):before {
+    position: absolute;
+    content: "E-mail";
+  }
+  
+  .profile__input {
+    background-color: transparent;
+    border: none;
+    color: black;
+    text-align: end;
+    width: 100%;
+    outline: none;
+  }
+  
+  .profile__submit {
+    margin-top: 220px !important;
+    background-color: transparent;
+    border: none;
+    color: black;
+    cursor: pointer;
+  }
+  
+  .profile__submit:hover {
+    text-shadow: rgb(0, 255, 149) 1px 0 10px;
+  }
+  
+  .profile__submit_disabled {
+    margin-top: 220px !important;
+    background-color: transparent;
+    border: none;
+    color: black
+  }
+  
+  .profile__logout {
+    margin-top: 16px;
+    padding: 0;
+    color: #EE3465 !important;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .profile {
+      padding-top: 236px;
+    }
+  }
+  
+  @media screen and (max-width: 640px) {
+    .profile {
+      padding: 70px 30px;
+      box-sizing: border-box;
+    }
+  }

@@ -1,5 +1,5 @@
 
-function CustomInput({ title, name, type, error, disabled, onChange}) {
+function CustomInput({ title, name, type, error, disabled = false, onChange}) {
 
   return (
     <label className="input-label text color_text">
