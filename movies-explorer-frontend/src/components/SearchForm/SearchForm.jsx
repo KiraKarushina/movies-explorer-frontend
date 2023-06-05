@@ -12,7 +12,7 @@ function SearchForm({ searchText, handleChange, handleSubmit, onChangeFilter, fi
           onChange={handleChange}
           required
         />
-        <button className="search__submit link" type="submit"></button>
+        <button className="search__submit link" type="submit">Найти</button>
       </form>
       <Filter filterShortFilms={filterShortFilms} onChangeFilter={onChangeFilter}></Filter>
     </div>

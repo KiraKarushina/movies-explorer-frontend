@@ -1,7 +1,9 @@
+
 function Filter({ onChangeFilter, filterShortFilms }) {
   return (
     <div className="filter">
-      <label className="filter__label text">
+        <p className="text">Короткометражки</p>
+      <label className="filter__label">
         <input
           type="checkbox"
           className="filter__input"

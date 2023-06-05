@@ -2,14 +2,14 @@
     width: 100%;
     background: transparent;
     border: none;
-    border-bottom: 1px solid #424242;
+    border-bottom: 1px solid #E8E8E8;
     color: #000000;
     height: 28px;
     outline: none;
   }
   
   .input:focus {
-    border-bottom: 1px solid #2BE080;
+    border-bottom: 1px solid #000000;
   }
   
   .input-label {

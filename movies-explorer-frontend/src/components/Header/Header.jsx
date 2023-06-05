@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../images/logo.svg";
+import account from "../../images/account.svg"
 import closeIcon from "../../images/close.svg";
 import { GlobalContext } from "../../contexts/GlobalContext";
 
@@ -43,10 +44,11 @@ function Header() {
           <li className="header__movies-item">
             <Link
               to="/profile"
-              className="header__link-profile color_secondary link"
+              className="header__link-profile link"
               onClick={handleCloseMenu}
             >
               Аккаунт
+              <img src={account} className="header__account" alt="аккаунт" />
             </Link>
           </li>
         </ul>

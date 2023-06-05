@@ -24,18 +24,6 @@ function MovieCard({ movie }) {
 
   return (
     <div className="card">
-      <div className="card__header">
-        <div>
-          <h3 className="card__title text_subtitle">{movie.nameRU}</h3>
-          <p className="card__duration text color_text">{`${
-            hours === 0 ? "" : hours + "ч"
-          } ${minutes}м`}</p>
-        </div>
-        <button
-          className={`card__favorite color_secondary link ${buttonClassName}`}
-          onClick={handleClickFavorite}
-        ></button>
-      </div>
       <a
         href={movie.trailerLink}
         target="_blank"
@@ -44,6 +32,18 @@ function MovieCard({ movie }) {
       >
         <img className="card__image" src={imageUrl} alt={movie.nameRU} />
       </a>
+      <div className="card__footer">
+        <div className="card__description">
+          <h3 className="card__title text_subtitle">{movie.nameRU}</h3>
+          <button
+          className={`card__favorite ${buttonClassName}`}
+          onClick={handleClickFavorite}
+        ></button>
+        </div>
+        <p className="card__duration text color_text">{`${
+            hours === 0 ? "" : hours + "ч"
+          } ${minutes}м`}</p>
+      </div>
     </div>
   );
 }

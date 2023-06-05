@@ -1,7 +1,12 @@
+.filter {
+    display: flex;
+    margin-left: 40px;
+}
 .filter__label {
+    margin-left: 14px;
     position: relative;
     display: inline-block;
-    width: 168px;
+    width: 40px;
     height: 20px;
   }
   
@@ -40,7 +45,6 @@
   
   .filter__switch:after {
     position: absolute;
-    content: "Короткометражки";
     top: 0;
     left: 50px;
   }
@@ -59,11 +63,12 @@
     transform: translateX(16px);
   }
   
-  @media screen and (max-width: 640px) {
+  @media screen and (max-width: 768px) {
     .filter {
       position: absolute;
       bottom: 0;
       left: 50%;
       transform: translate(-50%, 45px);
+      margin-left: 0;
     }
   }

@@ -46,6 +46,7 @@
   cursor: pointer;
   transition: opacity 0.6s;
   background: #e8e8e8;
+  color: #FFFFFF;
 }
 
 .promo__list-item:hover {

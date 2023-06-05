@@ -47,7 +47,7 @@
     font-weight: 400;
     border-radius: 3px;
     border: none;
-    background-color: #2BE080;
+    background-color: #000000;
     color: white;
   }
   
@@ -60,7 +60,7 @@
     font-weight: 400;
     border-radius: 3px;
     border: none;
-    background-color: #2BE080;
+    background-color: #000000;
     color: white;
     opacity: 0.3;
   }
@@ -89,7 +89,7 @@
   
   .register__link {
     text-decoration: none;
-    color: #2BE080;
+    color: #000000;
   }
   
   .register__link:hover {
