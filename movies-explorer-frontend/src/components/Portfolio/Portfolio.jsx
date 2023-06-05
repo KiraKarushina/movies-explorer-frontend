@@ -5,7 +5,7 @@ import './Portfolio.css';
 function Portfolio() {
   return (
     <section className="portfolio">
-      <p className="portfolio__title text color_text">Портфолио</p>
+      <p className="portfolio__title color_text">Портфолио</p>
       <ul className="portfolio__list">
         <li className="portfolio__list-item">
           <a

@@ -4,7 +4,7 @@ import "./AboutProject.css";
 const AboutProject = forwardRef((props, ref) => {
   return (
     <section className="project" ref={ref}>
-      <h2 className="project__title text_subtitle underline-pb25">О проекте</h2>
+      <h2 className="project__title text_subtitle">О проекте</h2>
       <ul className="project__about">
         <li>
           <h3 className="project__about-title text_subtitle">

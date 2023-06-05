@@ -49,6 +49,11 @@
 }
 .text_medium {
   margin: 0;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 50px;
 }
 
 @media screen and (max-width: 768px) {
@@ -58,6 +63,11 @@
 
   .portfolio__link {
     font-size: 28px;
+  }
+
+  .text-medium {
+    font-size: 28px;
+    line-height: 50px;
   }
 }
 

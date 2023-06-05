@@ -23,7 +23,7 @@
   }
   
   .color_background {
-    background-color: #FDFDFD;;
+    background-color: #F5F5F5;;
   }
   
   .color_error {
@@ -100,16 +100,16 @@
   
   @media screen and (max-width: 768px) {
     .text {
-      font-size: 10px;
+      font-size: 12px;
       line-height: calc(16 / 10);
     }
     .text_medium {
-      font-size: 18px;
+      font-size: 28px;
       line-height: calc(28 / 18);
     }
   
     .text_title {
-      font-size: 30px;
+      font-size: 40px;
       line-height: calc(36 / 30);
     }
     .text_subtitle {

@@ -23,7 +23,7 @@ function MovieCard({ movie }) {
   }
 
   return (
-    <div className="card color_background">
+    <div className="card">
       <div className="card__header">
         <div>
           <h3 className="card__title text_subtitle">{movie.nameRU}</h3>
