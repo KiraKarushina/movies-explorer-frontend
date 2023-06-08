@@ -1,9 +1,16 @@
-import {useState } from "react";
+import { useState } from "react";
+import React from "react"
 import auth from "../../utils/Auth";
 import api from "../../utils/MainApi";
+import { useNavigate } from "react-router-dom";
+import { GlobalContext } from "../../contexts/GlobalContext";
 
 
 function Profile() {
+
+  let navigate = useNavigate();
+  const globalState = React.useContext(GlobalContext);
+
   const [userData, setUserData] = useState({
     name: 'Darya',
     email: ''
@@ -24,7 +31,10 @@ function Profile() {
   }
 
   function handleLogout() {
-      auth.logout();
+            //Для ревью, без функционала
+            globalState.loggedIn = false;
+            navigate("/")
+      // auth.logout();
   }
 
   return (

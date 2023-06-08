@@ -5,7 +5,10 @@ import SearchForm from "../SearchForm/SearchForm";
 function SavedMovies() {
   const [isNotFound, setIsNotFound] = useState(false);
   const searchText = "фильм";
-  function onChangeFilter(e) {}
+  const [isFilteredShortFilms, setIsFilteredShortFilms] = useState(false);
+  function onChangeFilter(e) {
+    setIsFilteredShortFilms(e.target.checked)
+  }
 
   function handleChange(e) {}
 
@@ -19,7 +22,7 @@ function SavedMovies() {
         searchText={searchText}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
-        filterShortFilms={""}
+        filterShortFilms={isFilteredShortFilms}
         onChangeFilter={onChangeFilter}
       />
       <MoviesCardList

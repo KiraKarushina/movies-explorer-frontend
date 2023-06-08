@@ -7,8 +7,10 @@ function Movies() {
   const [isNotFound, setIsNotFound] = useState(false);
   const [searchText, setSearchText] = "";
   const [movies, setMovies] = useState([]);
-
-  function onChangeFilter(e) {}
+  const [isFilteredShortFilms, setIsFilteredShortFilms] = useState(false);
+  function onChangeFilter(e) {
+    setIsFilteredShortFilms(e.target.checked)
+  }
 
   function handleChange(e) {}
 
@@ -29,7 +31,7 @@ function Movies() {
         searchText={searchText}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
-        filterShortFilms={true}
+        filterShortFilms={isFilteredShortFilms}
         onChangeFilter={onChangeFilter}
       />
       <MoviesCardList

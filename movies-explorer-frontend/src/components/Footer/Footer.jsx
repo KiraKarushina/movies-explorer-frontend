@@ -3,7 +3,7 @@ import React from "react";
 function Footer() {
   return (
     <footer className="footer">
-      <h3 className="footer__title text color_text">
+      <h3 className="footer__title text text_color">
         Учебный проект Яндекс.Практикум х BeatFilm.
       </h3>
       <div className="footer__row">

@@ -40,7 +40,7 @@ function MovieCard({ movie }) {
           onClick={handleClickFavorite}
         ></button>
         </div>
-        <p className="card__duration text color_text">{`${
+        <p className="card__duration text text_color">{`${
             hours === 0 ? "" : hours + "ч"
           } ${minutes}м`}</p>
       </div>

@@ -12,13 +12,14 @@ import Modal from "../Modal/Modal";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import HeadAndFoodWrapper from "../HeadAndFoodWrapper/HeadAndFoodWrapper";
+import { GlobalContext } from "../../contexts/GlobalContext";
 
 function App() {
   //
   //States
   //
 
-  const [loggedIn, setLoggedIn] = useState(true);
+  const globalState = React.useContext(GlobalContext);
 
   const [toolTip, setToolTip] = useState({
     message: "",

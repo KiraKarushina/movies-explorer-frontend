@@ -4,13 +4,17 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import auth from "../../utils/Auth";
+import { GlobalContext } from "../../contexts/GlobalContext";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
 
-        //
+    //
     // Constants
     //
 
+    let navigate = useNavigate();
+    const globalState = React.useContext(GlobalContext);
     const [disabled, setDisabled] = useState(false);
     const [error, setError] = useState({ name: "", email: "", password: "" });
     const [formData, setFormData] = useState({
@@ -21,7 +25,7 @@ function Login() {
     
   //register__submit_disabled TODO обновить позже на register__submit_disabled
     const [buttonProps, setButtonProps] = useState({
-      disabled: true,
+      disabled: false,
       className: "login__submit",
     });
 
@@ -33,14 +37,19 @@ function Login() {
           });
     }
 
-    const handleSubmit = (formValue) => {
-        formValue.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
         setDisabled(true);
         setButtonProps({ disabled: true, className: "login__submit_disabled" });
-        auth.login(formData).then(() => {
-            setDisabled(false);
-            setButtonProps({ disabled: false, className: "login__submit" });
-        });
+
+        //Для ревью, без функционала
+        globalState.loggedIn = true;
+        navigate("/")
+
+        // auth.login(formData).then(() => {
+        //     setDisabled(false);
+        //     setButtonProps({ disabled: false, className: "login__submit" });
+        // });
       };
 
       return (
