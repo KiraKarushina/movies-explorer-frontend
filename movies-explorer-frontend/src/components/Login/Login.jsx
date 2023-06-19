@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import CustomInput from "../CustomInput/CustomInput";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -6,92 +6,127 @@ import logo from "../../images/logo.svg";
 import auth from "../../utils/Auth";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useNavigate } from "react-router-dom";
+import { isEmail, isPassword } from "../../utils/CustomInputValidation";
+import { serverValidationMessages } from "../../utils/constants";
 
 function Login() {
+  //
+  // Constants
+  //
 
-    //
-    // Constants
-    //
+  let navigate = useNavigate();
+  const globalState = React.useContext(CurrentUserContext);
+  const [loggedIn, setLoggedIn] = useState(globalState.loggedIn);
+  const [loginMessage, setLoginMessage] = useState("");
+  const [disabled, setDisabled] = useState(false);
+  const [error, setError] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-    let navigate = useNavigate();
-    const globalState = React.useContext(CurrentUserContext);
-    const [disabled, setDisabled] = useState(false);
-    const [error, setError] = useState({ name: "", email: "", password: "" });
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        password: "",
+  const [buttonProps, setButtonProps] = useState({
+    disabled: false,
+    className: "login__submit_disabled",
+  });
+
+  const handleInputChange = (val) => {
+    const { name, value, validationMessage } = val.target;
+    let errMessage = validationMessage;
+    if (name === "email") {
+      setError({
+        ...error,
+        email: !!errMessage ? errMessage : isEmail(value),
       });
-    
-  //register__submit_disabled TODO обновить позже на register__submit_disabled
-    const [buttonProps, setButtonProps] = useState({
-      disabled: false,
-      className: "login__submit",
-    });
-
-    const handleInputChange = (val) => {
-        const { name, value } = val.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-          });
+    } else {
+      setError({
+        ...error,
+        password: !!errMessage ? errMessage : isPassword(value),
+      });
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setDisabled(true);
-        setButtonProps({ disabled: true, className: "login__submit_disabled" });
+    setFormData({ ...formData, [name]: value });
 
-        //Для ревью, без функционала
+    const haveSomeError = Object.keys(error).some(
+      (key) => formData[key] === "" || errMessage
+    );
+    setButtonProps({
+      disabled: haveSomeError,
+      className: haveSomeError ? "login__submit_disabled" : "login__submit",
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setDisabled(true);
+    setButtonProps({ disabled: true, className: "login__submit_disabled" });
+
+    auth
+      .login(formData)
+      .then(({token, user}) => {
+        localStorage.setItem("jwt", token);
+        setDisabled(false);
+        setLoggedIn(true);
         globalState.loggedIn = true;
-        navigate("/")
+        globalState.user = user;
+        setButtonProps({ disabled: false, className: "login__submit" });
+      })
+      .catch((code) => {
+        setLoginMessage(serverValidationMessages[parseInt(code.match(/\d+/))]);
+        setTimeout(() => {
+          setLoginMessage("");
+          setDisabled(false);
+        }, 3000);
+      });
+  };
 
-        // auth.login(formData).then(() => {
-        //     setDisabled(false);
-        //     setButtonProps({ disabled: false, className: "login__submit" });
-        // });
-      };
-      
-      return (
-        <div className="login">
-          <Link to="/" className="login__logo">
-            <img src={logo} alt="Логотип" />
-          </Link>
-          <h2 className="login__title">Рады видеть!</h2>
-          <form className="login__form" onSubmit={handleSubmit}>
-            <div className="login__input-container">
-              <CustomInput
-                type="email"
-                name="email"
-                title="E-mail"
-                onChange={handleInputChange}
-                error={error.email}
-                disabled={disabled}
-              />
-              <CustomInput
-                type="password"
-                name="password"
-                title="Пароль"
-                onChange={handleInputChange}
-                error={error.password}
-                disabled={disabled}
-              />
-            </div>
-            <button
-              className={`${buttonProps.className} text`}
-              disabled={disabled || buttonProps.disabled}
-            >
-              Войти
-            </button>
-          </form>
-          <div className="login__link-container">
-            <p className="text color_text">Еще не зарегестрированны?</p>
-            <Link to="/sign-up" className="login__link text">
-              Рестистрация
-            </Link>
-          </div>
+  useEffect(() => {
+    if (loggedIn) {
+      navigate("/movies");
+    }
+  }, [loggedIn, navigate]);
+
+  return (
+    <div className="login">
+      <Link to="/" className="login__logo">
+        <img src={logo} alt="Логотип" />
+      </Link>
+      <h2 className="login__title">Рады видеть!</h2>
+      <form className="login__form" onSubmit={handleSubmit}>
+        <div className="login__input-container">
+          <CustomInput
+            type="email"
+            name="email"
+            title="E-mail"
+            onChange={handleInputChange}
+            error={error.email}
+            disabled={disabled}
+          />
+          <CustomInput
+            type="password"
+            name="password"
+            title="Пароль"
+            onChange={handleInputChange}
+            error={error.password}
+            disabled={disabled}
+          />
         </div>
-      );
+        <span className="login__message">{loginMessage}</span>
+        <button
+          className={`${buttonProps.className} text`}
+          disabled={disabled || buttonProps.disabled}
+        >
+          Войти
+        </button>
+      </form>
+      <div className="login__link-container">
+        <p className="text color_text">Еще не зарегестрированны?</p>
+        <Link to="/sign-up" className="login__link text">
+          Рестистрация
+        </Link>
+      </div>
+    </div>
+  );
 }
 
 export default Login;

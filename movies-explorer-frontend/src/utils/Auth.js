@@ -31,6 +31,7 @@ register({name, email, password}) {
     return fetch(`${this._url}/signin`, {
       method: "POST",
       headers: this._headers,
+      credentials: 'same-origin',
       body: JSON.stringify({
         password: password,
         email: email,
@@ -44,6 +45,17 @@ register({name, email, password}) {
       headers: this._headers,
     }).then(this._handleResponse);
   }
+
+  authentication(token) {
+  return fetch(`${this._url}/users/me`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      ...this._headers,
+    }
+  }).then(this._handleResponse);
+}
+
 }
 
 const auth = new Auth(backendApiAddress);

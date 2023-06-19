@@ -70,15 +70,18 @@ function Register() {
     auth.register(formData).then(() => {
       setDisabled(false);
       setLoggedIn(true);
-      globalState.loggedIn = true;
       setButtonProps({ disabled: false, className: "register__submit" });
-      auth.login(formData);
+      auth.login(formData).then(({token, user}) => {
+        localStorage.setItem("jwt", token);
+        globalState.loggedIn = true;
+        globalState.user = user;
+      });
     }).catch((code) => {
       setRegisterMessage(serverValidationMessages[parseInt(code.match(/\d+/))])
       setTimeout(() => {
         setRegisterMessage('');
         setDisabled(false);
-      }, 5000)
+      }, 3000)
     });
   };
 
