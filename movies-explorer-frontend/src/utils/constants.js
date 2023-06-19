@@ -9,3 +9,24 @@ export const smallMooviesCount = 5;
 export const bigMooviesCount = 16;
 export const twoMovieInColumn = 2;
 export const threeMovieInColumn = 4;
+
+//
+// Константы для валидации форм
+//
+export const passwordInputRegexp = /[0-9a-z-а-яё]+/g;
+export const symbolsRegexp = /[_~!@#$%^&*()\[\]+`'";:<>\/\\|=]/g;
+export const nameInputRegexp = /[a-z-. а-яё]+/g;
+export const emailRegexp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+export const validationMessages = {
+  name: "Имя содержит недопустимые символы",
+  email: "Неккоректный формат email",
+  password: "Пароль содержит не допустимые символы.",
+};
+
+export const serverValidationMessages = {
+  400: "Неккоректные данные.",
+  401: "Не авторизован.",
+  409: "Пользователь с введенным email уже зарегистрирован.",
+  500: "Ошибка на сервере.",
+};

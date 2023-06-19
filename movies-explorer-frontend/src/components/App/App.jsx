@@ -12,14 +12,14 @@ import Modal from "../Modal/Modal";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import HeadAndFoodWrapper from "../HeadAndFoodWrapper/HeadAndFoodWrapper";
-import { GlobalContext } from "../../contexts/GlobalContext";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function App() {
   //
   //States
   //
 
-  const globalState = React.useContext(GlobalContext);
+  const globalState = React.useContext(CurrentUserContext);
 
   const [toolTip, setToolTip] = useState({
     message: "",

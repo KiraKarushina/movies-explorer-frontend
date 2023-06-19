@@ -4,11 +4,11 @@ import logo from "../../images/logo.svg";
 import account from "../../images/account.svg";
 import closeIcon from "../../images/close.svg";
 import burgerIcon from "../../images/burger.svg";
-import { GlobalContext } from "../../contexts/GlobalContext";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function Header() {
   //   const location = useLocation();
-  const globalState = React.useContext(GlobalContext);
+  const globalState = React.useContext(CurrentUserContext);
   const menuRef = useRef();
 
   const handleOpenMenu = () => {

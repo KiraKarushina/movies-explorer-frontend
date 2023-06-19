@@ -1,6 +1,6 @@
 import React from "react";
 
-const globaState = {
+const currentUser = {
   loggedIn: false,
   loading: false,
   user: { name: "", email: "", _id: "" },
@@ -22,4 +22,4 @@ const globaState = {
   toolTip: { message: "", isOpen: false, success: true },
   authMessage: "",
 };
-export const GlobalContext = React.createContext(globaState);
+export const CurrentUserContext = React.createContext(currentUser);

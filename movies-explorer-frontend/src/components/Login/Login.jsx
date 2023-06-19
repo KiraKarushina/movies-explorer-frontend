@@ -1,10 +1,10 @@
 import React from "react"
 import CustomInput from "../CustomInput/CustomInput";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import auth from "../../utils/Auth";
-import { GlobalContext } from "../../contexts/GlobalContext";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -14,7 +14,7 @@ function Login() {
     //
 
     let navigate = useNavigate();
-    const globalState = React.useContext(GlobalContext);
+    const globalState = React.useContext(CurrentUserContext);
     const [disabled, setDisabled] = useState(false);
     const [error, setError] = useState({ name: "", email: "", password: "" });
     const [formData, setFormData] = useState({
@@ -51,7 +51,7 @@ function Login() {
         //     setButtonProps({ disabled: false, className: "login__submit" });
         // });
       };
-
+      
       return (
         <div className="login">
           <Link to="/" className="login__logo">

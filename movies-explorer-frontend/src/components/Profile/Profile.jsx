@@ -3,13 +3,13 @@ import React from "react"
 import auth from "../../utils/Auth";
 import api from "../../utils/MainApi";
 import { useNavigate } from "react-router-dom";
-import { GlobalContext } from "../../contexts/GlobalContext";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 
 function Profile() {
 
   let navigate = useNavigate();
-  const globalState = React.useContext(GlobalContext);
+  const globalState = React.useContext(CurrentUserContext);
 
   const [userData, setUserData] = useState({
     name: 'Darya',
