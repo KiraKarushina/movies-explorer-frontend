@@ -15,10 +15,10 @@ class Api {
     return res.json();
   }
 
-  updateProfile({ name, email }) {
+  updateProfile({ name, email }, token) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: { ...this._headers, Authorization: `Bearer ${token}` },
       body: JSON.stringify({
         name: name,
         email: email,
@@ -26,32 +26,32 @@ class Api {
     }).then(this._handleResponse);
   }
 
-  getProfile() {
+  getProfile({_id}, token) {
     return fetch(`${this._url}/users/me`, {
-      headers: this._headers,
+      headers: { ...this._headers, Authorization: `Bearer ${token}` },
     }).then((response) => {
       return this._handleResponse(response);
     });
   }
 
-  saveMovie(movie) {
+  saveMovie(movie, token) {
     return fetch(`${this._url}/movies`, {
       method: "POST",
-      headers: this._headers,
-      body: JSON.stringify(movie),
+      headers: { ...this._headers, Authorization: `Bearer ${token}` },
+      body: JSON.stringify({...movie}),
     }).then(this._handleResponse);
   }
   
-  deleteMovie(id) {
+  deleteMovie(id, token) {
     return fetch(`${this._url}/movies/${id}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: { ...this._headers, Authorization: `Bearer ${token}` },
     }).then(this._handleResponse);
   }
 
-  getMyMovies() {
+  getMyMovies(token) {
     return fetch(`${this._url}/movies`, {
-      headers: this._headers,
+      headers: { ...this._headers, Authorization: `Bearer ${token}` },
     }).then((response) => {
       return this._handleResponse(response);
     });

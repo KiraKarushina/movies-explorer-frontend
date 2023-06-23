@@ -1,24 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 import CustomInput from "../CustomInput/CustomInput";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
-import auth from "../../utils/Auth";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { isEmail, isPassword, isName } from "../../utils/CustomInputValidation";
-import { useNavigate } from "react-router-dom";
-import { serverValidationMessages } from"../../utils/constants"
 
-function Register() {
+function Register({ submitHandler, isLoading, message, setMessage }) {
   //
   // Constants
   //
-  const navigate = useNavigate();
-  const globalState = React.useContext(CurrentUserContext);
-  const [loggedIn, setLoggedIn] = useState(globalState.loggedIn);
   const [disabled, setDisabled] = useState(false);
   const [error, setError] = useState({ name: "", email: "", password: "" });
-  const [registerMessage, setRegisterMessage] = useState('');
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -67,31 +59,10 @@ function Register() {
     formValue.preventDefault();
     setDisabled(true);
     setButtonProps({ disabled: true, className: "register__submit_disabled" });
-    auth.register(formData).then(() => {
-      setDisabled(false);
-      setLoggedIn(true);
-      setButtonProps({ disabled: false, className: "register__submit" });
-      auth.login(formData).then(({token, user}) => {
-        localStorage.setItem("jwt", token);
-        globalState.loggedIn = true;
-        globalState.user = user;
-      });
-    }).catch((code) => {
-      setRegisterMessage(serverValidationMessages[parseInt(code.match(/\d+/))])
-      setTimeout(() => {
-        setRegisterMessage('');
-        setDisabled(false);
-      }, 3000)
-    });
+    submitHandler(formData);
   };
 
-
-  useEffect(() => {
-    if  (loggedIn) {
-       navigate("/movies");
-    };
-  }, [loggedIn, navigate]);
-
+  useEffect(() => setMessage(""), [setMessage]);
 
   return (
     <div className="register">
@@ -126,12 +97,12 @@ function Register() {
             disabled={disabled}
           />
         </div>
-        <span className="register__message">{registerMessage}</span>
+        <span className="register__message">{message}</span>
         <button
           className={`${buttonProps.className} text`}
           disabled={disabled || buttonProps.disabled}
         >
-          Зарегистрироваться
+          {isLoading ? "Загрузка..." : "Зарегистрироваться"}
         </button>
       </form>
       <div className="register__link-container">

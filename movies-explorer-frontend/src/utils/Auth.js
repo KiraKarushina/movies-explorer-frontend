@@ -15,28 +15,35 @@ class Auth {
     return res.json();
   }
 
-register({name, email, password}) {
-   return fetch(`${this._url}/signup`, {
+  register(name, email, password ) {
+    return fetch(`${this._url}/signup`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
         name: name,
         password: password,
         email: email,
-      })
+      }),
     }).then(this._handleResponse);
   }
 
-  login({ email, password }) {
+  login(email, password) {
     return fetch(`${this._url}/signin`, {
       method: "POST",
       headers: this._headers,
-      credentials: 'same-origin',
+      credentials: "same-origin",
       body: JSON.stringify({
         password: password,
         email: email,
       }),
-    }).then(this._handleResponse);
+    })
+      .then(this._handleResponse)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+          return data;
+        }
+      });
   }
 
   logout() {
@@ -47,15 +54,15 @@ register({name, email, password}) {
   }
 
   authentication(token) {
-  return fetch(`${this._url}/users/me`, {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      ...this._headers,
-    }
-  }).then(this._handleResponse);
-}
-
+    return fetch(`${this._url}/users/me`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(this._handleResponse);
+  }
 }
 
 const auth = new Auth(backendApiAddress);

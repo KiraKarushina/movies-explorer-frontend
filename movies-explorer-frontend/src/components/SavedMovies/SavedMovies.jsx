@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import HeadAndFoodWrapper from "../HeadAndFoodWrapper/HeadAndFoodWrapper";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 
@@ -17,6 +18,7 @@ function SavedMovies() {
   const handleClickMoreMovies = useCallback(() => {}, []);
 
   return (
+    <HeadAndFoodWrapper>
     <main className="movies">
       <SearchForm
         searchText={searchText}
@@ -33,6 +35,7 @@ function SavedMovies() {
         movies= {[]}
       />
     </main>
+    </HeadAndFoodWrapper>
   );
 }
 

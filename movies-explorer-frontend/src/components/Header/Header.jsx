@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useRef, useEffect, useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import account from "../../images/account.svg";
 import closeIcon from "../../images/close.svg";
@@ -7,8 +7,8 @@ import burgerIcon from "../../images/burger.svg";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function Header() {
-  //   const location = useLocation();
-  const globalState = React.useContext(CurrentUserContext);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { currentUser } = useContext(CurrentUserContext);
   const menuRef = useRef();
 
   const handleOpenMenu = () => {
@@ -20,12 +20,19 @@ function Header() {
     const menu = menuRef.current;
     menu.style.display = "";
   };
+
+  useEffect(() => {
+    currentUser.name === ""
+      ? setIsLoggedIn(false)
+      : setIsLoggedIn(true);
+    }, [currentUser.name])
+
   return (
     <header className="header">
       <Link to="/">
         <img src={logo} className="header__logo" alt="лого" />
       </Link>
-      {globalState.loggedIn && (
+      {isLoggedIn && (
         <nav className="header__navigate header__navigate-movies">
           <ul className="header__movies text" ref={menuRef}>
             <li className="header__movies-item">
@@ -69,7 +76,7 @@ function Header() {
         </nav>
       )}
 
-      {!globalState.loggedIn && (
+      {!isLoggedIn && (
         <nav>
           <ul className="header__auth text">
             <li className="header__auth-item link">

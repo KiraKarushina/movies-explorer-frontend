@@ -4,20 +4,14 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import auth from "../../utils/Auth";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import { useNavigate } from "react-router-dom";
 import { isEmail, isPassword } from "../../utils/CustomInputValidation";
 import { serverValidationMessages } from "../../utils/constants";
 
-function Login() {
+function Login({ submitHandler, isLoading, message, setMessage }) {
   //
   // Constants
   //
 
-  let navigate = useNavigate();
-  const globalState = React.useContext(CurrentUserContext);
-  const [loggedIn, setLoggedIn] = useState(globalState.loggedIn);
-  const [loginMessage, setLoginMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
   const [error, setError] = useState({ email: "", password: "" });
   const [formData, setFormData] = useState({
@@ -60,31 +54,11 @@ function Login() {
     e.preventDefault();
     setDisabled(true);
     setButtonProps({ disabled: true, className: "login__submit_disabled" });
-
-    auth
-      .login(formData)
-      .then(({token, user}) => {
-        localStorage.setItem("jwt", token);
-        setDisabled(false);
-        setLoggedIn(true);
-        globalState.loggedIn = true;
-        globalState.user = user;
-        setButtonProps({ disabled: false, className: "login__submit" });
-      })
-      .catch((code) => {
-        setLoginMessage(serverValidationMessages[parseInt(code.match(/\d+/))]);
-        setTimeout(() => {
-          setLoginMessage("");
-          setDisabled(false);
-        }, 3000);
-      });
+    submitHandler(formData);
+  
   };
 
-  useEffect(() => {
-    if (loggedIn) {
-      navigate("/movies");
-    }
-  }, [loggedIn, navigate]);
+  useEffect(() => setMessage(""), [setMessage]);
 
   return (
     <div className="login">
@@ -111,12 +85,12 @@ function Login() {
             disabled={disabled}
           />
         </div>
-        <span className="login__message">{loginMessage}</span>
+        <span className="login__message">{message}</span>
         <button
           className={`${buttonProps.className} text`}
           disabled={disabled || buttonProps.disabled}
         >
-          Войти
+         {isLoading ? "Загрузка..." : "Войти"}
         </button>
       </form>
       <div className="login__link-container">
