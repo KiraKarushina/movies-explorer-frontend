@@ -12,7 +12,6 @@ function Login({ submitHandler, isLoading, message, setMessage }) {
   // Constants
   //
 
-  const [disabled, setDisabled] = useState(false);
   const [error, setError] = useState({ email: "", password: "" });
   const [formData, setFormData] = useState({
     email: "",
@@ -26,6 +25,7 @@ function Login({ submitHandler, isLoading, message, setMessage }) {
 
   const handleInputChange = (val) => {
     const { name, value, validationMessage } = val.target;
+    setMessage('');
     let errMessage = validationMessage;
     if (name === "email") {
       setError({
@@ -52,7 +52,6 @@ function Login({ submitHandler, isLoading, message, setMessage }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setDisabled(true);
     setButtonProps({ disabled: true, className: "login__submit_disabled" });
     submitHandler(formData);
   
@@ -74,7 +73,7 @@ function Login({ submitHandler, isLoading, message, setMessage }) {
             title="E-mail"
             onChange={handleInputChange}
             error={error.email}
-            disabled={disabled}
+            disabled={isLoading}
           />
           <CustomInput
             type="password"
@@ -82,13 +81,13 @@ function Login({ submitHandler, isLoading, message, setMessage }) {
             title="Пароль"
             onChange={handleInputChange}
             error={error.password}
-            disabled={disabled}
+            disabled={isLoading}
           />
         </div>
         <span className="login__message">{message}</span>
         <button
           className={`${buttonProps.className} text`}
-          disabled={disabled || buttonProps.disabled}
+          disabled={isLoading || buttonProps.disabled}
         >
          {isLoading ? "Загрузка..." : "Войти"}
         </button>

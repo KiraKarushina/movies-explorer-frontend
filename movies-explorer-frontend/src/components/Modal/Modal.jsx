@@ -1,7 +1,8 @@
 import React from "react";
 import deniedImage from "../../images/denied.png";
+import successImage from "../../images/success.png";
 
-const Modal = ({ text, isVisible }) => {
+const Modal = ({ text, isVisible, success }) => {
 
   return (
     <div className={`modal ${isVisible && "modal_opened"}`}>
@@ -10,7 +11,7 @@ const Modal = ({ text, isVisible }) => {
         <div>
           <img
             className="modal__icon"
-            src={deniedImage}
+            src={success? successImage : deniedImage}
             alt="Cтатус"
           />
           <h3 className="modal__title">{text}</h3>

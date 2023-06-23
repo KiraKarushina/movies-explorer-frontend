@@ -1,17 +1,20 @@
 import { useState, useCallback, useEffect, useContext } from "react";
 import React from "react";
 import auth from "../../utils/Auth";
-import api from "../../utils/MainApi";
 import { useNavigate } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { isEmail, isName } from "../../utils/CustomInputValidation";
 import HeadAndFoodWrapper from "../HeadAndFoodWrapper/HeadAndFoodWrapper";
 
-function Profile(props) {
-  let navigate = useNavigate();
-  const userContext = useContext(CurrentUserContext);
-  const [userName, setUserName] = useState(userContext.user.name);
-  const [userEmail, setUserEmail] = useState(userContext.user.email);
+function Profile({
+  setIsLoggedIn,
+  submitHandler,
+  isLoading,
+  handleLogout
+}) {
+  const { currentUser } = useContext(CurrentUserContext);
+  const [userName, setUserName] = useState(currentUser.name);
+  const [userEmail, setUserEmail] = useState(currentUser.email);
   const [buttonProps, setButtonProps] = useState({
     disabled: true,
     className: "profile__submit_disabled",
@@ -19,8 +22,8 @@ function Profile(props) {
 
   const checkEdit = useCallback(() => {
     if (
-      userContext.user.name !== userName ||
-      userContext.user.email !== userEmail
+      currentUser.name !== userName ||
+      currentUser.email !== userEmail
     ) {
       if (!isName(userName) && !isEmail(userEmail)) {
         setButtonProps({ disabled: false, className: "profile__submit" });
@@ -28,11 +31,16 @@ function Profile(props) {
       }
     }
     setButtonProps({ disabled: true, className: "profile__submit_disabled" });
-  }, [userContext, userName, userEmail]);
+  }, [currentUser, userName, userEmail]);
 
   useEffect(() => {
     checkEdit();
   }, [checkEdit]);
+
+  useEffect(() => {
+   setUserName(currentUser.name);
+   setUserEmail(currentUser.email);
+   }, [currentUser.name, currentUser.email]);
 
   function handleNameInputChange(e) {
     setUserName(e.target.value);
@@ -44,45 +52,16 @@ function Profile(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    api
-      .updateProfile({
-        name: userName,
-        email: userEmail,
-      })
-      .then((res) => {
-        userContext.user.name = userName;
-        userContext.user.email = userEmail;
-        userContext.toolTip = {
-          message: "Успех!",
-          isOpen: true,
-          success: true,
-        };
-      })
-      .catch((err) => {
-        userContext.toolTip = {
-          message: err.message,
-          isOpen: true,
-          success: false,
-        };
-        props.showToolTip();
-      });
-  }
-
-  function handleLogout() {
-    auth
-      .logout()
-      .then(() => {
-        userContext.loggedIn = false;
-        localStorage.removeItem("jwt");
-        navigate("/");
-      })
-      .catch((err) => console.log(err));
+    submitHandler({
+      name: userName,
+      email: userEmail
+    });
   }
   return (
     <HeadAndFoodWrapper>
       <section className="profile">
         <h1 className="profile__title text_medium">
-          Привет, {userContext.user.name}!
+          Привет, {currentUser.name}!
         </h1>
         <form action="submit" className="profile__form text">
           <label className="profile__label underline-pb20">
@@ -93,6 +72,7 @@ function Profile(props) {
               onChange={handleNameInputChange}
               value={userName}
               minLength={2}
+              disabled={isLoading}
             />
           </label>
           <label className="profile__label">
@@ -102,6 +82,7 @@ function Profile(props) {
               className="profile__input"
               onChange={handleEmailInputChange}
               value={userEmail}
+              disabled={isLoading}
             />
           </label>
           <button
@@ -110,7 +91,7 @@ function Profile(props) {
             onClick={handleSubmit}
             disabled={buttonProps.disabled}
           >
-            Редактировать
+            {isLoading ? "Сохраняем..." : "Редактировать"}
           </button>
         </form>
         <button className="profile__logout link text" onClick={handleLogout}>

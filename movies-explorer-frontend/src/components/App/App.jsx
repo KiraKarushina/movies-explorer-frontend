@@ -27,27 +27,29 @@ function App() {
     _id: "",
   });
   const [savedMovies, setSavedMovies] = useState([]);
-  const [profileMessage, setProfileMessage] = useState("");
-  const [profileMessageModifier, setProfileMessageModifier] = useState(false);
   const [savedMoviesMessage, setSavedMoviesMessage] = useState("");
   const [unauthPageMessage, setUnauthPageMessage] = useState("");
-  const [errorText, setErrorText] = useState("");
-  const [errorModal, setErrorModal] = useState(false);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const location = useLocation();
 
-  const showProfileMessage = (text, modifier) => {
-    setProfileMessage(text);
-    setProfileMessageModifier(modifier);
-    setTimeout(() => setProfileMessageModifier(""), "что-то");
-  };
+  //
+  // Модальное окно
+  //
+  const [errorText, setErrorText] = useState("");
+  const [errorModal, setErrorModal] = useState(false);
+  const [success, setSuccess] = useState(false);
 
-  const showPopupError = (text = "Что-то пошло не так") => {
+  const showModal = (text = "Что-то пошло не так...", success = false) => {
     setErrorText(text);
     setErrorModal(true);
-    setTimeout(() => setErrorModal(false), "огого");
+    setSuccess(success);
+    setTimeout(() => setErrorModal(false), 3000);
   };
+
+  //
+  // Обработчики
+  //
 
   const registerUser = ({ name, email, password }) => {
     setIsLoading(true);
@@ -55,17 +57,17 @@ function App() {
       .register(name, email, password)
       .then((res) => {
         if (res) {
-          loginUser(email, password);
+          loginUser({
+            email: email,
+            password: password,
+          });
           setUnauthPageMessage("");
         }
       })
-      .catch((e) => e.json())
-      .then((e) => {
-        if (e?.message) {
-          setUnauthPageMessage(e.message);
-        }
+      .catch((e) => {
+        const message = e?.message ? e.message : e;
+        setUnauthPageMessage(message);
       })
-      .catch((e) => console.log(e))
       .finally(() => setIsLoading(false));
   };
 
@@ -80,14 +82,11 @@ function App() {
           setUnauthPageMessage("");
         }
       })
-      .catch((e) => e.json())
-      .then((e) => {
-        if (e?.message) {
-          setUnauthPageMessage(e.message);
-        }
+      .catch((e) => {
+        const message = e?.message ? e.message : e;
+        setUnauthPageMessage(message);
         setIsLoggedIn(false);
       })
-      .catch((e) => console.log(e))
       .finally(() => setIsLoading(false));
   };
 
@@ -95,15 +94,33 @@ function App() {
     setIsLoading(true);
     api
       .updateProfile(userData, token)
-      .then((data) => {
+      .then((res) => {
         setCurrentUser({
-          name: data.name,
-          email: data.email,
+          name: res.data.name,
+          email: res.data.email,
         });
-        showProfileMessage("Изменения сохранены", "success");
+        showModal("Успех", true);
       })
-      .catch((e) => showProfileMessage(e.message, "fail"))
+      .catch((e) => showModal(e?.message))
       .finally(() => setIsLoading(false));
+  };
+
+  const handleLogout = () => {
+    auth
+      .logout(token)
+      .then(() => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("queryData");
+        localStorage.removeItem("savedMovies");
+        localStorage.removeItem("allMoviesData");
+        setIsLoggedIn(false);
+        setCurrentUser({
+          name: "",
+          email: "",
+        });
+        navigate("/");
+      })
+      .catch((err) => console.log(err));
   };
 
   //
@@ -134,11 +151,9 @@ function App() {
             email: response.data.email,
             _id: response.data._id,
           });
-          console.log(currentUser);
-          debugger;
         })
         .catch((e) => {
-          showPopupError(e.message);
+          showModal(e.message);
           setIsLoggedIn(false);
           navigate("/sign-in");
         });
@@ -185,7 +200,7 @@ function App() {
                 loggedIn={isLoggedIn}
                 savedMovies={savedMovies}
                 setSavedMovies={setSavedMovies}
-                cardErrorHandler={showPopupError}
+                cardErrorHandler={showModal}
               />
             }
           />
@@ -198,7 +213,7 @@ function App() {
                 savedMovies={savedMovies}
                 setSavedMovies={setSavedMovies}
                 message={savedMoviesMessage}
-                cardErrorHandler={showPopupError}
+                cardErrorHandler={showModal}
               />
             }
           />
@@ -211,8 +226,7 @@ function App() {
                 setIsLoggedIn={setIsLoggedIn}
                 submitHandler={updateUserInfo}
                 isLoading={isLoading}
-                message={profileMessage}
-                messageModifier={profileMessageModifier}
+                handleLogout={handleLogout}
               />
             }
           />
@@ -242,7 +256,7 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
 
-        {errorModal && <Modal text={errorText} isVisible={errorModal} />}
+        <Modal text={errorText} isVisible={errorModal} success={success} />
       </div>
     </CurrentUserContext.Provider>
   );

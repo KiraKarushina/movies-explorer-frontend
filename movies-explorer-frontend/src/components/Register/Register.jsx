@@ -9,7 +9,7 @@ function Register({ submitHandler, isLoading, message, setMessage }) {
   //
   // Constants
   //
-  const [disabled, setDisabled] = useState(false);
+  
   const [error, setError] = useState({ name: "", email: "", password: "" });
   const [formData, setFormData] = useState({
     name: "",
@@ -24,6 +24,7 @@ function Register({ submitHandler, isLoading, message, setMessage }) {
 
   const handleInputChange = (val) => {
     const { name, value, validationMessage } = val.target;
+    setMessage('');
     let errMessage = validationMessage;
     if (name === "email") {
       setError({
@@ -57,12 +58,9 @@ function Register({ submitHandler, isLoading, message, setMessage }) {
 
   const handleSubmit = (formValue) => {
     formValue.preventDefault();
-    setDisabled(true);
     setButtonProps({ disabled: true, className: "register__submit_disabled" });
     submitHandler(formData);
   };
-
-  useEffect(() => setMessage(""), [setMessage]);
 
   return (
     <div className="register">
@@ -77,7 +75,7 @@ function Register({ submitHandler, isLoading, message, setMessage }) {
             title="Имя"
             onChange={handleInputChange}
             error={error.name}
-            disabled={disabled}
+            disabled={isLoading}
             type="text"
           />
           <CustomInput
@@ -86,7 +84,7 @@ function Register({ submitHandler, isLoading, message, setMessage }) {
             title="E-mail"
             onChange={handleInputChange}
             error={error.email}
-            disabled={disabled}
+            disabled={isLoading}
           />
           <CustomInput
             type="password"
@@ -94,13 +92,13 @@ function Register({ submitHandler, isLoading, message, setMessage }) {
             title="Пароль"
             onChange={handleInputChange}
             error={error.password}
-            disabled={disabled}
+            disabled={isLoading}
           />
         </div>
         <span className="register__message">{message}</span>
         <button
           className={`${buttonProps.className} text`}
-          disabled={disabled || buttonProps.disabled}
+          disabled={isLoading || buttonProps.disabled}
         >
           {isLoading ? "Загрузка..." : "Зарегистрироваться"}
         </button>

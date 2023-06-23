@@ -9,14 +9,14 @@
     right: 0;
     position: fixed;
     visibility: hidden;
-    opacity: 1;
+    opacity: 0;
   }
   
   .modal_opened {
     display: flex;
     visibility: visible;
-    opacity: 0;
-    transition: opacity 0.5s linear;
+    opacity: 1;
+    animation: openCloseModal 1s 1 ease;
   }
   
   .modal__overlay {
@@ -97,4 +97,20 @@
       max-width: 282px;
     }
   }
+
+  @keyframes openCloseModal {
+    0% {
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
   

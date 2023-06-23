@@ -46,10 +46,10 @@ class Auth {
       });
   }
 
-  logout() {
+  logout(token) {
     return fetch(`${this._url}/signout`, {
       method: "POST",
-      headers: this._headers,
+      headers: { ...this._headers, Authorization: `Bearer ${token}` },
     }).then(this._handleResponse);
   }
 
