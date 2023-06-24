@@ -1,4 +1,4 @@
-import { backendApiAddress, moviesApiAddress } from "./constants.js";
+import { BACKEND_API_ADRESS, MOVIES_API_ADRESS } from "./constants.js";
 
 class Api {
   constructor(url) {
@@ -58,10 +58,10 @@ class Api {
   }
 
   getMovies() {
-    return fetch(`${moviesApiAddress}/`).then(this._handleResponse);
+    return fetch(`${MOVIES_API_ADRESS}/`).then(this._handleResponse);
   }
 }
 
-const api = new Api(backendApiAddress);
+const api = new Api(BACKEND_API_ADRESS);
 
 export default api;

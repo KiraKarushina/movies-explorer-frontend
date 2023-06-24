@@ -2,8 +2,7 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { useLocation } from "react-router-dom";
 
-
-function HeadAndFoodWrapper ({ children, header = true, footer = true }) {
+function HeadAndFoodWrapper({ children, header = true, footer = true }) {
   const location = useLocation();
   const path = location.pathname;
 
@@ -14,6 +13,6 @@ function HeadAndFoodWrapper ({ children, header = true, footer = true }) {
       {path !== "/profile" && footer && <Footer />}
     </>
   );
-};
+}
 
 export default HeadAndFoodWrapper;

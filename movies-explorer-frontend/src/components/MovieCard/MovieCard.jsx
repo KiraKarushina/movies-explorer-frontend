@@ -8,7 +8,6 @@ function MovieCard({
   onDeleteHandler,
   ...props
 }) {
-
   const hours = Math.floor(props.duration / 60);
   const minutes = props.duration % 60;
   const location = useLocation();
@@ -23,7 +22,6 @@ function MovieCard({
       (onRouteSavedMovies && "card__favorite_delete")
     );
   }, [isSaved, onRouteSavedMovies]);
-
 
   const handleSave = () => {
     // создаем объект фильма для сохранения
@@ -62,18 +60,20 @@ function MovieCard({
         rel="noopener noreferrer"
         className="card__trailer-link"
       >
-        <img className="card__image" src={props.image?.url ? serverUrl + props.image.url : props.image } alt={props.nameRU} />
+        <img
+          className="card__image"
+          src={props.image?.url ? serverUrl + props.image.url : props.image}
+          alt={props.nameRU}
+        />
       </a>
       <div className="card__footer">
         <div className="card__description">
           <h3 className="card__title text_subtitle">{props.nameRU}</h3>
           <button
             className={`card__favorite ${buttonClassName}`}
-            onClick={onSavedPage
-              ? handleDelete
-              : isSaved
-                ? handleDelete
-                : handleSave}
+            onClick={
+              onSavedPage ? handleDelete : isSaved ? handleDelete : handleSave
+            }
           ></button>
         </div>
         <p className="card__duration text text_color">{`${

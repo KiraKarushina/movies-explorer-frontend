@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { nothing_found, shortDurMoovieMin } from "../../utils/constants";
+import { NOTHING_FOUND, SHORT_DUR_MOOVIE_MIN } from "../../utils/constants";
 import api from "../../utils/MainApi";
 import HeadAndFoodWrapper from "../HeadAndFoodWrapper/HeadAndFoodWrapper";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
@@ -24,7 +24,7 @@ function SavedMovies({
   };
 
   const findOnlyShortMovies = (movies) => {
-    return movies.filter((movie) => movie.duration < shortDurMoovieMin);
+    return movies.filter((movie) => movie.duration < SHORT_DUR_MOOVIE_MIN);
   };
 
   useEffect(() => setMoviesForRender(savedMovies), [savedMovies]);
@@ -57,16 +57,16 @@ function SavedMovies({
     const filteredMovies = filterMovies(searchQuery, savedMovies);
     const filteredShortMovies = findOnlyShortMovies(filteredMovies);
 
-    
+
     if (isOnlyShortFilms) {
       setMoviesForRender(filteredShortMovies);
       if (filteredShortMovies.length === 0 && !message) {
-        setResultMessage(nothing_found);
+        setResultMessage(NOTHING_FOUND);
       }
     } else {
       setMoviesForRender(filteredMovies);
       if (filteredMovies.length === 0 && !message) {
-        setResultMessage(nothing_found);
+        setResultMessage(NOTHING_FOUND);
       }
     }
   };
