@@ -25,7 +25,7 @@ function Login({ submitHandler, isLoading, message, setMessage }) {
 
   const handleInputChange = (val) => {
     const { name, value, validationMessage } = val.target;
-    setMessage('');
+    setMessage("");
     let errMessage = validationMessage;
     if (name === "email") {
       setError({
@@ -54,7 +54,6 @@ function Login({ submitHandler, isLoading, message, setMessage }) {
     e.preventDefault();
     setButtonProps({ disabled: true, className: "login__submit_disabled" });
     submitHandler(formData);
-  
   };
 
   useEffect(() => setMessage(""), [setMessage]);
@@ -89,7 +88,7 @@ function Login({ submitHandler, isLoading, message, setMessage }) {
           className={`${buttonProps.className} text`}
           disabled={isLoading || buttonProps.disabled}
         >
-         {isLoading ? "Загрузка..." : "Войти"}
+          {isLoading ? "Загрузка..." : "Войти"}
         </button>
       </form>
       <div className="login__link-container">

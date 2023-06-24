@@ -1,40 +1,95 @@
-import { useCallback, useState } from "react";
+import { useState, useEffect } from "react";
+import { nothing_found, shortDurMoovieMin } from "../../utils/constants";
+import api from "../../utils/MainApi";
 import HeadAndFoodWrapper from "../HeadAndFoodWrapper/HeadAndFoodWrapper";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 
-function SavedMovies() {
-  const [isNotFound, setIsNotFound] = useState(false);
-  const searchText = "фильм";
-  const [isFilteredShortFilms, setIsFilteredShortFilms] = useState(false);
-  function onChangeFilter(e) {
-    setIsFilteredShortFilms(e.target.checked)
-  }
+function SavedMovies({
+  savedMovies,
+  setSavedMovies,
+  message,
+  cardErrorHandler,
+}) {
 
-  function handleChange(e) {}
+  const [shortFilmsCheck, setShortFilmsCheck] = useState(false);
+  // создаем дополнительный стейт, который будем отрисовывать
+  const [moviesForRender, setMoviesForRender] = useState(savedMovies);
+  const [resultMessage, setResultMessage] = useState("");
+  const token = localStorage.getItem("token");
 
-  function handleSubmit(e) {}
+  const filterMovies = (searchQuery, moviesArray) => {
+    return moviesArray.filter((movie) =>
+      movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  };
 
-  const handleClickMoreMovies = useCallback(() => {}, []);
+  const findOnlyShortMovies = (movies) => {
+    return movies.filter((movie) => movie.duration < shortDurMoovieMin);
+  };
+
+  useEffect(() => setMoviesForRender(savedMovies), [savedMovies]);
+
+  useEffect(() => {
+    if (message) {
+      setResultMessage(message);
+    }
+  }, [message]);
+
+  const deleteMovie = (movieId, likeHandler) => {
+    api
+      .deleteMovie(movieId, token)
+      .then(() => {
+        likeHandler(false);
+        // при удалении меняем оба состояния, чтобы карточка не отобразилась
+        setSavedMovies((state) => state.filter((m) => m._id !== movieId));
+        setMoviesForRender((state) => state.filter((m) => m._id !== movieId));
+      })
+      .catch((e) => e.json())
+      .then((e) => {
+        if (e?.message) {
+          cardErrorHandler(e.message);
+        }
+      })
+      .catch((e) => console.log(e));
+  };
+
+  const submitHandler = (isOnlyShortFilms, searchQuery) => {
+    // фильтруем
+    const filteredMovies = filterMovies(searchQuery, savedMovies);
+    const filteredShortMovies = findOnlyShortMovies(filteredMovies);
+
+    // следим при этом за чекбоксом
+    if (isOnlyShortFilms) {
+      setMoviesForRender(filteredShortMovies);
+      if (filteredShortMovies.length === 0 && !message) {
+        setResultMessage(nothing_found);
+      }
+    } else {
+      setMoviesForRender(filteredMovies);
+      if (filteredMovies.length === 0 && !message) {
+        setResultMessage(nothing_found);
+      }
+    }
+  };
 
   return (
     <HeadAndFoodWrapper>
-    <main className="movies">
-      <SearchForm
-        searchText={searchText}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        filterShortFilms={isFilteredShortFilms}
-        onChangeFilter={onChangeFilter}
-      />
-      <MoviesCardList
-        handleClickMoreMovies={handleClickMoreMovies}
-        isNotFound={isNotFound}
-        isFilteredShortFilms={true}
-        showedCountMovies={12}
-        movies= {[]}
-      />
-    </main>
+      <main className="movies">
+        <SearchForm
+          submitHandler={submitHandler}
+          checkbox={shortFilmsCheck}
+          setCheckbox={setShortFilmsCheck}
+        />
+        {moviesForRender && !message && (
+          <MoviesCardList
+            allMovies={moviesForRender}
+            onDeleteHandler={deleteMovie}
+            onSavedPage={true}
+          />
+        )}
+        <p className="movies__message">{resultMessage}</p>
+      </main>
     </HeadAndFoodWrapper>
   );
 }

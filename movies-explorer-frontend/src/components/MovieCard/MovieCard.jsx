@@ -1,48 +1,84 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
-import api from "../../utils/MainApi";
 
-function MovieCard({ movie }) {
-  const imageUrl = 'https://api.nomoreparties.co/' + movie.image.url
-  const hours = Math.floor(movie.duration / 60);
-  const minutes = movie.duration % 60;
-  const [isMovieSaved, setIsMovieSaved] = useState();
+function MovieCard({
+  onSavedPage,
+  savedMovies,
+  onSaveHandler,
+  onDeleteHandler,
+  ...props
+}) {
+
+  const hours = Math.floor(props.duration / 60);
+  const minutes = props.duration % 60;
   const location = useLocation();
   const onRouteSavedMovies = location.pathname === "/saved-movies";
 
-  const buttonClassName =
-    (isMovieSaved && !onRouteSavedMovies && "card__favorite_active") ||
-    (onRouteSavedMovies && "card__favorite_delete");
+  const serverUrl = "https://api.nomoreparties.co/";
+  const [isSaved, setIsSaved] = useState(false);
 
-  function handleClickFavorite() {
-    if (onRouteSavedMovies || isMovieSaved) {
-      api.deleteMovie(isMovieSaved._id);
-    } else {
-      api.saveMovie(movie);
+  const buttonClassName = useMemo(() => {
+    return (
+      (isSaved && !onRouteSavedMovies && "card__favorite_active") ||
+      (onRouteSavedMovies && "card__favorite_delete")
+    );
+  }, [isSaved, onRouteSavedMovies]);
+
+
+  const handleSave = () => {
+    // создаем объект фильма для сохранения
+    // добавляем дефолтные значения
+    const movieData = {
+      country: props.country || "",
+      director: props.director || "",
+      duration: props.duration,
+      year: props.year || "",
+      description: props.description || "",
+      image: serverUrl + props.image.url || "",
+      trailerLink: props.trailerLink || "",
+      nameRU: props.nameRU || props.nameEN || "",
+      nameEN: props.nameEN || props.nameRU || "",
+      thumbnail: serverUrl + props.image.formats.thumbnail.url || "",
+      movieId: props.id,
+    };
+    onSaveHandler(movieData, setIsSaved);
+  };
+
+  const handleDelete = () => {
+    onDeleteHandler(props._id || props.id, setIsSaved);
+  };
+
+  useEffect(() => {
+    if (savedMovies.some((movie) => movie.movieId === props.id)) {
+      setIsSaved(true);
     }
-  }
+  }, [savedMovies, props.id]);
 
   return (
     <div className="card">
       <a
-        href={movie.trailerLink}
+        href={props.trailerLink}
         target="_blank"
         rel="noopener noreferrer"
         className="card__trailer-link"
       >
-        <img className="card__image" src={imageUrl} alt={movie.nameRU} />
+        <img className="card__image" src={props.image?.url ? serverUrl + props.image.url : props.image } alt={props.nameRU} />
       </a>
       <div className="card__footer">
         <div className="card__description">
-          <h3 className="card__title text_subtitle">{movie.nameRU}</h3>
+          <h3 className="card__title text_subtitle">{props.nameRU}</h3>
           <button
-          className={`card__favorite ${buttonClassName}`}
-          onClick={handleClickFavorite}
-        ></button>
+            className={`card__favorite ${buttonClassName}`}
+            onClick={onSavedPage
+              ? handleDelete
+              : isSaved
+                ? handleDelete
+                : handleSave}
+          ></button>
         </div>
         <p className="card__duration text text_color">{`${
-            hours === 0 ? "" : hours + "ч"
-          } ${minutes}м`}</p>
+          hours === 0 ? "" : hours + "ч"
+        } ${minutes}м`}</p>
       </div>
     </div>
   );

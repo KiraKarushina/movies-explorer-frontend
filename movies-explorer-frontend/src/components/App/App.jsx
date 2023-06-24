@@ -165,7 +165,7 @@ function App() {
       api
         .getMyMovies(token)
         .then((data) => {
-          const ownSavedMovies = data.filter(
+          const ownSavedMovies = data.data.filter(
             (movie) => movie.owner === currentUser._id
           );
           localStorage.setItem("savedMovies", JSON.stringify(ownSavedMovies));
@@ -173,7 +173,7 @@ function App() {
           setSavedMoviesMessage("");
         })
         .catch((e) => {
-          setSavedMoviesMessage("lalla");
+          setSavedMoviesMessage(e?.message);
           console.log(e);
         });
     }

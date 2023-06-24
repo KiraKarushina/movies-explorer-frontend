@@ -7,9 +7,8 @@ function MoviesCardList({
   onSaveHandler,
   onDeleteHandler,
   savedMovies,
-  isLoading
+  isLoading,
 }) {
-
   return (
     <div className="cards">
       {isLoading ? (
@@ -19,7 +18,14 @@ function MoviesCardList({
           <p className="cards__message text_subtitle"></p>
           <div className="cards__list">
             {allMovies.map((movie) => (
-              <MovieCard movie={movie} key={movie.id || movie._id} />
+              <MovieCard
+                key={movie.id || movie._id}
+                onSaveHandler={onSaveHandler}
+                onDeleteHandler={onDeleteHandler}
+                savedMovies={savedMovies || allMovies}
+                onSavedPage={onSavedPage}
+                {...movie}
+              />
             ))}
           </div>
         </>

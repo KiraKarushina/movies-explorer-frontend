@@ -14,6 +14,7 @@ import {
   oneMoovieInColumn,
   shortDurMoovieMin,
   default_err_message,
+  nothing_found,
 } from "../../utils/constants";
 import { useGetWidthWindow } from "../../hooks/useGetWidthWindow";
 import { beatFilmApi } from "../../utils/MooviesApi";
@@ -22,33 +23,18 @@ import HeadAndFoodWrapper from "../HeadAndFoodWrapper/HeadAndFoodWrapper";
 function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [initialCardsAmount, setInitialCards] = useState(0); // первоначальное кол-во карточек
-  const [cardsPage, setCardsPage] = useState(0); // открытые страницы
-  const [cardsInBundle, setCardsInBundle] = useState(0); // карточек в след. порции
+  const [initialCardsAmount, setInitialCards] = useState(0);
+  const [cardsPage, setCardsPage] = useState(0);
+  const [cardsInBundle, setCardsInBundle] = useState(0);
   const [shortFilmsCheck, setShortFilmsCheck] = useState(false);
   const [lastSearchQuery, setLastSearchQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [resultMessage, setResultMessage] = useState("");
-  const cardsCount = initialCardsAmount + cardsInBundle * cardsPage; // кол-во карточек, которые отобразятся
-
+  const cardsCount = initialCardsAmount + cardsInBundle * cardsPage;
   const width = useGetWidthWindow();
   const queryData = localStorage.getItem("queryData");
   const token = localStorage.getItem("token");
   let allMovies = localStorage.getItem("allMoviesData");
-
-  // меняет отрисовку карточек от ширины экрана
-  useEffect(() => {
-    if (width >= sw1280) {
-      setInitialCards(bigMooviesCount);
-      setCardsInBundle(fourMovieInColumn);
-    } else if (width > sw480 && width < sw768) {
-      setInitialCards(middleMooviesCount);
-      setCardsInBundle(twoMovieInColumn);
-    } else if (width <= sw480) {
-      setInitialCards(smallMooviesCount);
-      setCardsInBundle(oneMoovieInColumn);
-    }
-  }, [width]);
 
   let filteredMovies = JSON.parse(queryData)?.filteredMovies || [];
   let filteredShortMovies = JSON.parse(queryData)?.filteredShortMovies || [];
@@ -68,55 +54,28 @@ function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
     return searchItem._id;
   };
 
-  // получаем последний запрос и состояние чекбокса
-  useEffect(() => {
-    if (queryData) {
-      setLastSearchQuery(JSON.parse(queryData)?.searchQuery);
-      setShortFilmsCheck(JSON.parse(queryData)?.isOnlyShortFilms);
-    }
-  }, []);
-
-  // если нет ошибок, меняем блок результатов в зависимости от чекбокса
-  useEffect(() => {
-    if (!errorMessage) {
-      shortFilmsCheck
-        ? setMovies(filteredShortMovies.slice(0, cardsCount))
-        : setMovies(filteredMovies.slice(0, cardsCount));
-    }
-  }, [shortFilmsCheck, cardsCount, errorMessage]);
-
-  // сохраняем состояние чекбокса при его изменении
-  useEffect(() => {
-    if (queryData) {
-      const updatedQueryData = JSON.parse(queryData);
-      updatedQueryData.isOnlyShortFilms = shortFilmsCheck;
-      localStorage.setItem("queryData", JSON.stringify(updatedQueryData));
-    }
-  }, [shortFilmsCheck, queryData]);
-
-  // удаляем данные о всех фильмах при обновлении страницы
-  useEffect(() => {
-    window.addEventListener("beforeunload", removeAllMoviesData);
-    return () => {
-      window.removeEventListener("beforeunload", removeAllMoviesData);
-    };
-  }, []);
-
   const removeAllMoviesData = () => localStorage.removeItem("allMoviesData");
 
   const submitHandler = async (isOnlyShortFilms, searchQuery) => {
     try {
       setIsLoading(true);
+      setResultMessage("");
+
       // получаем все фильмы
+
       if (!allMovies) {
         const allMoviesData = await beatFilmApi.getMovies();
         localStorage.setItem("allMoviesData", JSON.stringify(allMoviesData));
         allMovies = localStorage.getItem("allMoviesData");
       }
+
       // фильтруем
+
       filteredMovies = filterMovies(searchQuery, JSON.parse(allMovies));
       filteredShortMovies = findOnlyShortMovies(filteredMovies);
-      // создаем объект для сохранения в localStorage
+
+      // сохраняем в localStorage
+
       const queryData = {
         filteredMovies,
         filteredShortMovies,
@@ -125,17 +84,18 @@ function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
       };
       localStorage.setItem("queryData", JSON.stringify(queryData));
 
-      // следим за чекбоксом выводим результат
+      // следим за чекбоксом
+
       if (isOnlyShortFilms) {
         // отображаем только первоначальное кол-во карточек, используя slice
         setMovies(filteredShortMovies.slice(0, initialCardsAmount));
         if (filteredShortMovies.length === 0) {
-          setResultMessage("Ничего не найдено");
+          setResultMessage(nothing_found);
         }
       } else {
         setMovies(filteredMovies.slice(0, initialCardsAmount));
         if (filteredShortMovies.length === 0) {
-          setResultMessage("Ничего не найдено");
+          setResultMessage(nothing_found);
         }
       }
 
@@ -198,6 +158,52 @@ function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
       })
       .catch((e) => console.log(e));
   };
+
+  useEffect(() => {
+    if (queryData) {
+      setLastSearchQuery(JSON.parse(queryData)?.searchQuery);
+      setShortFilmsCheck(JSON.parse(queryData)?.isOnlyShortFilms);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!errorMessage) {
+      shortFilmsCheck
+        ? setMovies(filteredShortMovies.slice(0, cardsCount))
+        : setMovies(filteredMovies.slice(0, cardsCount));
+    }
+  }, [shortFilmsCheck, cardsCount, errorMessage]);
+
+  useEffect(() => {
+    if (queryData) {
+      const updatedQueryData = JSON.parse(queryData);
+      updatedQueryData.isOnlyShortFilms = shortFilmsCheck;
+      localStorage.setItem("queryData", JSON.stringify(updatedQueryData));
+    }
+  }, [shortFilmsCheck, queryData]);
+
+  // удаляем данные о всех фильмах при обновлении страницы
+  useEffect(() => {
+    window.addEventListener("beforeunload", removeAllMoviesData);
+    return () => {
+      window.removeEventListener("beforeunload", removeAllMoviesData);
+    };
+  }, []);
+
+  // меняет отрисовку карточек от ширины экрана
+
+  useEffect(() => {
+    if (width >= sw1280) {
+      setInitialCards(bigMooviesCount);
+      setCardsInBundle(fourMovieInColumn);
+    } else if (width > sw480 && width < sw768) {
+      setInitialCards(middleMooviesCount);
+      setCardsInBundle(twoMovieInColumn);
+    } else if (width <= sw480) {
+      setInitialCards(smallMooviesCount);
+      setCardsInBundle(oneMoovieInColumn);
+    }
+  }, [width]);
 
   return (
     <HeadAndFoodWrapper>
