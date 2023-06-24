@@ -3,9 +3,7 @@ import CustomInput from "../CustomInput/CustomInput";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
-import auth from "../../utils/Auth";
 import { isEmail, isPassword } from "../../utils/CustomInputValidation";
-import { serverValidationMessages } from "../../utils/constants";
 
 function Login({ submitHandler, isLoading, message, setMessage }) {
   //

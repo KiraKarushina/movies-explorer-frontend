@@ -11,7 +11,8 @@ export const bigMooviesCount = 16;
 export const twoMovieInColumn = 2;
 export const fourMovieInColumn = 4;
 export const oneMoovieInColumn = 1;
-export const default_err_message = "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз";
+export const default_err_message =
+  "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз";
 export const nothing_found = "Ничего не найдено";
 //
 // Константы для валидации форм

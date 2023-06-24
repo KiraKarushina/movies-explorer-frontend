@@ -8,6 +8,7 @@ function SearchForm({
   isLoading,
   submitHandler,
 }) {
+  
   //
   // States
   //
@@ -42,7 +43,6 @@ function SearchForm({
       <form noValidate className="search__form" onSubmit={onSubmitForm}>
         <div className="search__form-iput-section">
           <input
-            nova
             type="text"
             className="search__form-input"
             placeholder="Фильм"

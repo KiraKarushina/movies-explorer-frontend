@@ -32,12 +32,13 @@ function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
   const [resultMessage, setResultMessage] = useState("");
   const cardsCount = initialCardsAmount + cardsInBundle * cardsPage;
   const width = useGetWidthWindow();
-  const queryData = localStorage.getItem("queryData");
+  const localStorageData = localStorage.getItem("queryData");
   const token = localStorage.getItem("token");
   let allMovies = localStorage.getItem("allMoviesData");
 
-  let filteredMovies = JSON.parse(queryData)?.filteredMovies || [];
-  let filteredShortMovies = JSON.parse(queryData)?.filteredShortMovies || [];
+  let filteredMovies = JSON.parse(localStorageData)?.filteredMovies || [];
+  let filteredShortMovies =
+    JSON.parse(localStorageData)?.filteredShortMovies || [];
 
   const filterMovies = (searchQuery, moviesArray) => {
     return moviesArray.filter((movie) =>
@@ -61,20 +62,14 @@ function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
       setIsLoading(true);
       setResultMessage("");
 
-      // получаем все фильмы
-
       if (!allMovies) {
         const allMoviesData = await beatFilmApi.getMovies();
         localStorage.setItem("allMoviesData", JSON.stringify(allMoviesData));
         allMovies = localStorage.getItem("allMoviesData");
       }
 
-      // фильтруем
-
       filteredMovies = filterMovies(searchQuery, JSON.parse(allMovies));
       filteredShortMovies = findOnlyShortMovies(filteredMovies);
-
-      // сохраняем в localStorage
 
       const queryData = {
         filteredMovies,
@@ -84,10 +79,7 @@ function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
       };
       localStorage.setItem("queryData", JSON.stringify(queryData));
 
-      // следим за чекбоксом
-
       if (isOnlyShortFilms) {
-        // отображаем только первоначальное кол-во карточек, используя slice
         setMovies(filteredShortMovies.slice(0, initialCardsAmount));
         if (filteredShortMovies.length === 0) {
           setResultMessage(nothing_found);
@@ -109,7 +101,6 @@ function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
     }
   };
 
-  // делаем на 1 страницу больше
   const moreButtonHandler = () => setCardsPage((prev) => prev + 1);
 
   const MoreButton = ({ displayed }) => (
@@ -125,9 +116,7 @@ function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
     api
       .saveMovie(movie, token)
       .then((newMovie) => {
-        // после ответа добавляем новый фильм в стейт
-        setSavedMovies([...savedMovies, newMovie]);
-        // меняем кнопку
+        setSavedMovies([...savedMovies, newMovie.data]);
         likeHandler(true);
       })
       .catch((e) => e.json())
@@ -145,7 +134,7 @@ function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
       .deleteMovie(idInSavedMovies, token)
       .then(() => {
         likeHandler(false);
-        // убираем удаленный фильм из стейта
+
         setSavedMovies((state) =>
           state.filter((m) => m._id !== idInSavedMovies)
         );
@@ -160,9 +149,9 @@ function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
   };
 
   useEffect(() => {
-    if (queryData) {
-      setLastSearchQuery(JSON.parse(queryData)?.searchQuery);
-      setShortFilmsCheck(JSON.parse(queryData)?.isOnlyShortFilms);
+    if (localStorageData) {
+      setLastSearchQuery(JSON.parse(localStorageData)?.searchQuery);
+      setShortFilmsCheck(JSON.parse(localStorageData)?.isOnlyShortFilms);
     }
   }, []);
 
@@ -175,12 +164,12 @@ function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
   }, [shortFilmsCheck, cardsCount, errorMessage]);
 
   useEffect(() => {
-    if (queryData) {
-      const updatedQueryData = JSON.parse(queryData);
+    if (localStorageData) {
+      const updatedQueryData = JSON.parse(localStorageData);
       updatedQueryData.isOnlyShortFilms = shortFilmsCheck;
       localStorage.setItem("queryData", JSON.stringify(updatedQueryData));
     }
-  }, [shortFilmsCheck, queryData]);
+  }, [shortFilmsCheck, localStorageData]);
 
   // удаляем данные о всех фильмах при обновлении страницы
   useEffect(() => {

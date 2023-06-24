@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import CustomInput from "../CustomInput/CustomInput";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -9,7 +9,7 @@ function Register({ submitHandler, isLoading, message, setMessage }) {
   //
   // Constants
   //
-  
+
   const [error, setError] = useState({ name: "", email: "", password: "" });
   const [formData, setFormData] = useState({
     name: "",
@@ -24,7 +24,7 @@ function Register({ submitHandler, isLoading, message, setMessage }) {
 
   const handleInputChange = (val) => {
     const { name, value, validationMessage } = val.target;
-    setMessage('');
+    setMessage("");
     let errMessage = validationMessage;
     if (name === "email") {
       setError({

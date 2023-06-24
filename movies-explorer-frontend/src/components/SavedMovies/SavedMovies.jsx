@@ -13,7 +13,6 @@ function SavedMovies({
 }) {
 
   const [shortFilmsCheck, setShortFilmsCheck] = useState(false);
-  // создаем дополнительный стейт, который будем отрисовывать
   const [moviesForRender, setMoviesForRender] = useState(savedMovies);
   const [resultMessage, setResultMessage] = useState("");
   const token = localStorage.getItem("token");
@@ -41,7 +40,6 @@ function SavedMovies({
       .deleteMovie(movieId, token)
       .then(() => {
         likeHandler(false);
-        // при удалении меняем оба состояния, чтобы карточка не отобразилась
         setSavedMovies((state) => state.filter((m) => m._id !== movieId));
         setMoviesForRender((state) => state.filter((m) => m._id !== movieId));
       })
@@ -55,11 +53,11 @@ function SavedMovies({
   };
 
   const submitHandler = (isOnlyShortFilms, searchQuery) => {
-    // фильтруем
+
     const filteredMovies = filterMovies(searchQuery, savedMovies);
     const filteredShortMovies = findOnlyShortMovies(filteredMovies);
 
-    // следим при этом за чекбоксом
+    
     if (isOnlyShortFilms) {
       setMoviesForRender(filteredShortMovies);
       if (filteredShortMovies.length === 0 && !message) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import Login from "../Login/Login";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
@@ -36,6 +36,7 @@ function App() {
   //
   // Модальное окно
   //
+  
   const [errorText, setErrorText] = useState("");
   const [errorModal, setErrorModal] = useState(false);
   const [success, setSuccess] = useState(false);

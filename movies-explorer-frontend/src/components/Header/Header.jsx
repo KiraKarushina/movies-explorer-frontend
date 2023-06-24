@@ -7,7 +7,7 @@ import burgerIcon from "../../images/burger.svg";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const { currentUser } = useContext(CurrentUserContext);
   const menuRef = useRef();
 
@@ -22,10 +22,8 @@ function Header() {
   };
 
   useEffect(() => {
-    currentUser.name === ""
-      ? setIsLoggedIn(false)
-      : setIsLoggedIn(true);
-    }, [currentUser.name])
+    currentUser.name === "" ? setIsLoggedIn(false) : setIsLoggedIn(true);
+  }, [currentUser.name]);
 
   return (
     <header className="header">

@@ -1,17 +1,10 @@
 import { useState, useCallback, useEffect, useContext } from "react";
 import React from "react";
-import auth from "../../utils/Auth";
-import { useNavigate } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { isEmail, isName } from "../../utils/CustomInputValidation";
 import HeadAndFoodWrapper from "../HeadAndFoodWrapper/HeadAndFoodWrapper";
 
-function Profile({
-  setIsLoggedIn,
-  submitHandler,
-  isLoading,
-  handleLogout
-}) {
+function Profile({ setIsLoggedIn, submitHandler, isLoading, handleLogout }) {
   const { currentUser } = useContext(CurrentUserContext);
   const [userName, setUserName] = useState(currentUser.name);
   const [userEmail, setUserEmail] = useState(currentUser.email);
@@ -21,10 +14,7 @@ function Profile({
   });
 
   const checkEdit = useCallback(() => {
-    if (
-      currentUser.name !== userName ||
-      currentUser.email !== userEmail
-    ) {
+    if (currentUser.name !== userName || currentUser.email !== userEmail) {
       if (!isName(userName) && !isEmail(userEmail)) {
         setButtonProps({ disabled: false, className: "profile__submit" });
         return;
@@ -38,9 +28,9 @@ function Profile({
   }, [checkEdit]);
 
   useEffect(() => {
-   setUserName(currentUser.name);
-   setUserEmail(currentUser.email);
-   }, [currentUser.name, currentUser.email]);
+    setUserName(currentUser.name);
+    setUserEmail(currentUser.email);
+  }, [currentUser.name, currentUser.email]);
 
   function handleNameInputChange(e) {
     setUserName(e.target.value);
@@ -54,7 +44,7 @@ function Profile({
     e.preventDefault();
     submitHandler({
       name: userName,
-      email: userEmail
+      email: userEmail,
     });
   }
   return (
