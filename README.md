@@ -1,2 +1,2 @@
 # movies-explorer-frontend
-# https://github.com/KiraKarushina/movies-explorer-frontend/pull/2
+Link to final request # https://github.com/KiraKarushina/movies-explorer-frontend/pull/2
