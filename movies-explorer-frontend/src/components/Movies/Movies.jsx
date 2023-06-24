@@ -3,18 +3,18 @@ import api from "../../utils/MainApi";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 import {
-  bigMooviesCount,
-  middleMooviesCount,
-  smallMooviesCount,
-  sw480,
-  sw768,
-  sw1280,
-  fourMovieInColumn,
-  twoMovieInColumn,
-  oneMoovieInColumn,
-  shortDurMoovieMin,
-  default_err_message,
-  nothing_found,
+  BIG_MOOVIES_COUNT,
+  MIDDLE_MOOVIES_COUNT,
+  SMALL_MOOVIES_COUNT,
+  SW_480,
+  SW_768,
+  SW_1280,
+  FOUR_MOOVIES_IN_COLUMN,
+  TWO_MOOVIES_IN_COLUMN,
+  ONE_MOOVIES_IN_COLUMN,
+  SHORT_DUR_MOOVIE_MIN,
+  DEFAULT_ERR_MESSAGE,
+  NOTHING_FOUND,
 } from "../../utils/constants";
 import { useGetWidthWindow } from "../../hooks/useGetWidthWindow";
 import { beatFilmApi } from "../../utils/MooviesApi";
@@ -47,7 +47,7 @@ function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
   };
 
   const findOnlyShortMovies = (movies) => {
-    return movies.filter((movie) => movie.duration < shortDurMoovieMin);
+    return movies.filter((movie) => movie.duration < SHORT_DUR_MOOVIE_MIN);
   };
 
   const getOneIdByAnother = (id, array) => {
@@ -82,12 +82,12 @@ function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
       if (isOnlyShortFilms) {
         setMovies(filteredShortMovies.slice(0, initialCardsAmount));
         if (filteredShortMovies.length === 0) {
-          setResultMessage(nothing_found);
+          setResultMessage(NOTHING_FOUND);
         }
       } else {
         setMovies(filteredMovies.slice(0, initialCardsAmount));
         if (filteredShortMovies.length === 0) {
-          setResultMessage(nothing_found);
+          setResultMessage(NOTHING_FOUND);
         }
       }
 
@@ -95,7 +95,7 @@ function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
       setIsLoading(false);
     } catch (e) {
       setMovies([]);
-      setErrorMessage(default_err_message);
+      setErrorMessage(DEFAULT_ERR_MESSAGE);
       console.log(e);
       setIsLoading(false);
     }
@@ -182,15 +182,15 @@ function Movies({ savedMovies, setSavedMovies, cardErrorHandler }) {
   // меняет отрисовку карточек от ширины экрана
 
   useEffect(() => {
-    if (width >= sw1280) {
-      setInitialCards(bigMooviesCount);
-      setCardsInBundle(fourMovieInColumn);
-    } else if (width > sw480 && width < sw768) {
-      setInitialCards(middleMooviesCount);
-      setCardsInBundle(twoMovieInColumn);
-    } else if (width <= sw480) {
-      setInitialCards(smallMooviesCount);
-      setCardsInBundle(oneMoovieInColumn);
+    if (width >= SW_1280) {
+      setInitialCards(BIG_MOOVIES_COUNT);
+      setCardsInBundle(FOUR_MOOVIES_IN_COLUMN);
+    } else if (width > SW_480 && width < SW_768) {
+      setInitialCards(MIDDLE_MOOVIES_COUNT);
+      setCardsInBundle(TWO_MOOVIES_IN_COLUMN);
+    } else if (width <= SW_480) {
+      setInitialCards(SMALL_MOOVIES_COUNT);
+      setCardsInBundle(ONE_MOOVIES_IN_COLUMN);
     }
   }, [width]);
 
