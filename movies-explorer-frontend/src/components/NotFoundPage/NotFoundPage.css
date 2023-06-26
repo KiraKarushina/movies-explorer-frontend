@@ -1,0 +1,29 @@
+.error {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  max-width: 400px;
+  width: 100%;
+  align-items: center;
+}
+
+.error__title {
+  margin: 0;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 140px;
+  line-height: 169px;
+  text-align: center;
+}
+
+.error__message {
+  padding-bottom: 184px;
+}
+
+.error__button {
+  background-color: transparent;
+  color: #000000;
+  border: none;
+  cursor: pointer;
+}

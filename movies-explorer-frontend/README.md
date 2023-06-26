@@ -1,0 +1,1 @@
+# ссылка на макет https://disk.yandex.ru/d/Yify_dYmTEePAg
