@@ -1,9 +1,9 @@
 import { useLayoutEffect, useState } from "react";
 
-import { sw1280 } from "../utils/constants";
+import { SW_1280 } from "../utils/constants";
 
 export const useGetWidthWindow = () => {
-  const [width, setWidth] = useState(sw1280);
+  const [width, setWidth] = useState(SW_1280);
   useLayoutEffect(() => {
     const getWidth = () => {
       setWidth(window.innerWidth);
