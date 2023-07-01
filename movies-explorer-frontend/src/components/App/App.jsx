@@ -136,8 +136,6 @@ function App() {
         location.pathname === "/sign-in"
       ) {
         navigate("/movies");
-      } else {
-        navigate(location.pathname);
       }
     }
   }, [token, isLoggedIn, navigate, location.pathname]);
