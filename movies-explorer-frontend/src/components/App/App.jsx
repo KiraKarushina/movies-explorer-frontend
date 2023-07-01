@@ -157,7 +157,7 @@ function App() {
           navigate("/sign-in");
         });
     }
-  }, [token, isLoggedIn, navigate]);
+  }, [token, isLoggedIn]);
 
   useEffect(() => {
     if (isLoggedIn && !errorModal) {
