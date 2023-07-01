@@ -11,9 +11,9 @@ function SavedMovies({
   message,
   cardErrorHandler,
 }) {
-
   const [shortFilmsCheck, setShortFilmsCheck] = useState(false);
   const [moviesForRender, setMoviesForRender] = useState(savedMovies);
+  const [filteredMovies, setFilteredMovies] = useState(savedMovies);
   const [resultMessage, setResultMessage] = useState("");
   const token = localStorage.getItem("token");
 
@@ -27,13 +27,6 @@ function SavedMovies({
     return movies.filter((movie) => movie.duration < SHORT_DUR_MOOVIE_MIN);
   };
 
-  useEffect(() => setMoviesForRender(savedMovies), [savedMovies]);
-
-  useEffect(() => {
-    if (message) {
-      setResultMessage(message);
-    }
-  }, [message]);
 
   const deleteMovie = (movieId, likeHandler) => {
     api
@@ -53,23 +46,34 @@ function SavedMovies({
   };
 
   const submitHandler = (isOnlyShortFilms, searchQuery) => {
+    setFilteredMovies(filterMovies(searchQuery, savedMovies));
 
-    const filteredMovies = filterMovies(searchQuery, savedMovies);
+    setMoviesForRender(filteredMovies);
+    if (filteredMovies.length === 0 && !message) {
+      setResultMessage(NOTHING_FOUND);
+    }
+  };
+
+  useEffect(() => setMoviesForRender(savedMovies), [savedMovies]);
+
+  useEffect(() => {
     const filteredShortMovies = findOnlyShortMovies(filteredMovies);
 
-
-    if (isOnlyShortFilms) {
+    if (shortFilmsCheck) {
       setMoviesForRender(filteredShortMovies);
       if (filteredShortMovies.length === 0 && !message) {
         setResultMessage(NOTHING_FOUND);
       }
     } else {
       setMoviesForRender(filteredMovies);
-      if (filteredMovies.length === 0 && !message) {
-        setResultMessage(NOTHING_FOUND);
-      }
     }
-  };
+  }, [shortFilmsCheck, message, savedMovies, filteredMovies]);
+
+  useEffect(() => {
+    if (message) {
+      setResultMessage(message);
+    }
+  }, [message]);
 
   return (
     <HeadAndFoodWrapper>
