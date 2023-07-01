@@ -1,0 +1,32 @@
+.movies {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.movies__message {
+  width: 65%;
+  margin: 0 auto;
+  text-align: center;
+  height: 80px;
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.button_type_more {
+  width: 320px;
+  height: 36px;
+  border-radius: 3px;
+  background-color: #ffff;
+}
+
+.movies__footer {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 500px) {
+  .button_type_more {
+    width: 240px;
+  }
+}
